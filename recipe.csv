@@ -1,0 +1,11 @@
+id,name,description,ingredients,cuisine,course,craving
+1,Chocolate Chip Cookies,Classic and delicious cookies,"flour,sugar,eggs,chocolate chips",American,Dessert,sweet
+2,Pad Thai,A flavorful stir-fry noodle dish,"rice noodles, vegetables, eggs, tofu",Thai,Main Course,savory
+3,Spicy Chicken Curry,A hearty and flavorful curry,"chicken, vegetables, coconut milk, curry paste",Indian,Main Course,spicy
+4,Chocolate Cake, A delicious chocolate Cake,"flour, sugar, eggs .chocolate chips",None,Dessert,sweet
+5,Pancakes,Fluffy and delicious pancakes,"flour, milk, eggs, butter",American,Breakfast,sweet
+6,Spaghetti Bolognese,A classic Italian pasta dish,"ground beef, tomatoes, pasta, vegetables",Italian,Main Course,savory
+7,Chicken Noodle Soup,A comforting and nourishing soup,"chicken, noodles, vegetables, broth",American,Soup,savory
+8,Apple Pie,A classic American dessert,"apples, sugar, flour, butter",American,Dessert,sweet
+9,Vegetable Curry,A flavorful and healthy curry,"vegetables, coconut milk, curry paste",Indian,Main Course,spicy
+10,Sushi,A Japanese dish of vinegared rice with various toppings,"rice, fish, vegetables, seaweed",Japanese,Main Course,savory
