@@ -1,42 +1,61 @@
 id,name,description,ingredients,cuisine,course,craving,veg
-1,"Chocolate Chip Cookies","Classic and delicious cookies","flour,sugar,eggs,chocolate chips,butter,vanilla extract","American","Dessert","sweet",False
-2,"Pad Thai","A flavorful stir-fry noodle dish","rice noodles,tofu,eggs,bean sprouts,peanuts,lime,fish sauce,tamarind paste,garlic,shallots","Thai","Main Course","savory",False
-3,"Spicy Chicken Curry","A hearty and flavorful curry","chicken,onions,tomatoes,coconut milk,curry paste,ginger,garlic,cilantro","Indian","Main Course","spicy",False
-4,"Chocolate Cake","A rich and moist chocolate cake","flour,sugar,eggs,cocoa powder,milk,vegetable oil,baking powder,vanilla extract","International","Dessert","sweet",False
-5,"Pancakes","Fluffy and delicious pancakes","flour,milk,eggs,butter,baking powder,sugar,salt","American","Breakfast","sweet",False
-6,"Spaghetti Bolognese","A classic Italian pasta dish","ground beef,tomatoes,pasta,onions,garlic,carrots,celery,red wine,beef broth","Italian","Main Course","savory",False
-7,"Chicken Noodle Soup","A comforting and nourishing soup","chicken,noodles,carrots,celery,onions,chicken broth,thyme,parsley","American","Soup","savory",False
-8,"Apple Pie","A classic American dessert","apples,sugar,flour,butter,cinnamon,nutmeg,lemon juice","American","Dessert","sweet",True
-9,"Vegetable Curry","A flavorful and healthy curry","mixed vegetables,coconut milk,curry paste,onions,garlic,ginger,vegetable broth","Indian","Main Course","spicy",True
-10,"Sushi","A Japanese dish of vinegared rice with various toppings","sushi rice,nori,fish (salmon/tuna),cucumber,avocado,rice vinegar,wasabi,soy sauce","Japanese","Main Course","savory",False
-11,"Caesar Salad","A classic salad with a creamy dressing","romaine lettuce,croutons,parmesan cheese,caesar dressing,anchovies,garlic","Italian","Appetizer","savory",False
-12,"Tomato Soup","A comforting soup perfect for cold days","tomatoes,onions,garlic,vegetable broth,cream,basil","International","Soup","savory",True
-13,"Beef Tacos","Flavorful Mexican street food","ground beef,taco shells,lettuce,tomatoes,cheese,sour cream,taco seasoning","Mexican","Main Course","savory",False
-14,"Vegetable Stir Fry","A quick and healthy Asian-inspired dish","mixed vegetables,tofu,soy sauce,sesame oil,ginger,garlic,rice","Asian","Main Course","savory",True
-15,"Lemon Meringue Pie","A tangy and sweet dessert","pie crust,lemons,sugar,cornstarch,eggs,butter","American","Dessert","sweet",True
-16,"Mushroom Risotto","A creamy Italian rice dish","arborio rice,mushrooms,onions,white wine,vegetable broth,parmesan cheese,butter","Italian","Main Course","savory",True
-17,"BBQ Ribs","Tender and saucy barbecue ribs","pork ribs,bbq sauce,brown sugar,paprika,garlic powder,onion powder","American","Main Course","savory",False
-18,"Greek Salad","A refreshing Mediterranean salad","cucumbers,tomatoes,red onions,feta cheese,olives,olive oil,lemon juice,oregano","Greek","Salad","savory",True
-19,"Chicken Tikka Masala","A popular Indian curry dish","chicken,yogurt,tomato sauce,cream,onions,garlic,ginger,garam masala","Indian","Main Course","spicy",False
-20,"Banana Bread","A moist and delicious quick bread","bananas,flour,sugar,eggs,butter,baking soda,vanilla extract","American","Breakfast","sweet",False
-21,"Beef Stroganoff","A creamy Russian-inspired dish","beef strips,mushrooms,onions,sour cream,beef broth,egg noodles,paprika","Russian","Main Course","savory",False
-22,"Caprese Salad","A simple Italian salad","tomatoes,fresh mozzarella,basil,balsamic vinegar,olive oil","Italian","Salad","savory",True
-23,"Pho","A Vietnamese noodle soup","rice noodles,beef/chicken,bean sprouts,herbs,lime,chili,fish sauce,star anise,cinnamon","Vietnamese","Soup","savory",False
-24,"Tiramisu","An Italian coffee-flavored dessert","ladyfingers,espresso,mascarpone cheese,eggs,sugar,cocoa powder","Italian","Dessert","sweet",False
-25,"Falafel","Middle Eastern deep-fried chickpea balls","chickpeas,onions,garlic,parsley,cumin,coriander,flour","Middle Eastern","Main Course","savory",True
-26,"Enchiladas","A Mexican dish with tortillas filled with various ingredients","corn tortillas,chicken/beef/cheese,enchilada sauce,cheese,onions,olives","Mexican","Main Course","savory",False
-27,"Guacamole","A creamy avocado dip","avocado,lime juice,cilantro,red onion,tomato,salt","Mexican","Appetizer","savory",True
-28,"Stir-Fry with Beef and Broccoli","A quick and flavorful Asian dish","beef,broccoli,red bell pepper,soy sauce,sesame oil,ginger,garlic,rice","Asian","Main Course","savory",False
-29,"French Fries","Crispy and salty fried potatoes","potatoes,vegetable oil,salt","American","Side Dish","savory",False
-30,"Spring Rolls","A Vietnamese appetizer with savory filling","rice paper wrappers,pork/shrimp/vegetables,vermicelli noodles,lettuce,mint,fish sauce","Vietnamese","Appetizer","savory",False
-31,"Ratatouille","A French vegetable stew","eggplant,zucchini,tomatoes,bell peppers,onion,garlic,olive oil,herbs","French","Main Course","savory",True
-32,"Pasta Primavera","A light and flavorful pasta dish with spring vegetables","pasta,assorted vegetables (peas, asparagus, broccoli),garlic,olive oil,parmesan cheese","Italian","Main Course","savory",True
-33,"Jambalaya","A Creole dish with rice, meat, and seafood","rice,chicken,sausage,shrimp,celery,onion,bell pepper,tomatoes,cajun seasoning","Cajun","Main Course","savory",False
-34,"Chili","A hearty and spicy stew with meat and beans","ground beef/turkey,kidney beans,black beans,tomatoes,chili powder,cumin,onion,garlic","American","Soup","savory",False
-35,"Burrito Bowl","A customizable Mexican dish served in a bowl","rice,beans (black beans, pinto beans),meat (chicken, steak, carnitas),cheese,salsa,guacamole,sour cream","Mexican","Main Course","savory",False
-36,"Cobb Salad","A classic American salad with various ingredients","chicken,bacon,avocado,tomato,cucumber,romaine lettuce,blue cheese,hard-boiled egg,red onion","American","Salad","savory",False
-37,"Kung Pao Chicken","A spicy and flavorful Chinese dish","chicken,peanuts,red bell pepper,cashews,soy sauce,rice vinegar,chili paste,ginger,garlic","Chinese","Main Course","spicy",False
-38,"Tofu Scramble","A vegan alternative to scrambled eggs","tofu,turmeric,nutritional yeast,black pepper,vegetables (onion, bell pepper, spinach)","Vegan","Breakfast","savory",True
-39,"Lentil Soup","A hearty and healthy soup with lentils and vegetables","lentils,carrots,celery,onion,garlic,vegetable broth,herbs (thyme, bay leaf)","International","Soup","savory",True
-40,"Minestrone Soup","A classic Italian vegetable soup","pasta,assorted vegetables (beans, carrots, celery, zucchini),tomatoes,pesto","Italian","Soup","savory",True
-41,"Baked Salmon with Lemon and Herbs","A simple and flavorful dish","salmon fillet,lemon slices,fresh herbs (dill, parsley),olive oil,salt,pepper","Mediterranean","Main Course","savory",False
+1,Chocolate Chip Cookies,Classic and delicious cookies,"flour,sugar,eggs,chocolate chips,butter,vanilla extract",American,Dessert,sweet,FALSE
+2,Pad Thai,A flavorful stir-fry noodle dish,"rice noodles,tofu,eggs,bean sprouts,peanuts,lime,fish sauce,tamarind paste,garlic,shallots",Thai,Main Course,savory,FALSE
+3,Spicy Chicken Curry,A hearty and flavorful curry,"chicken,onions,tomatoes,coconut milk,curry paste,ginger,garlic,cilantro",Indian,Main Course,spicy,FALSE
+4,Chocolate Cake,A rich and moist chocolate cake,"flour,sugar,eggs,cocoa powder,milk,vegetable oil,baking powder,vanilla extract",International,Dessert,sweet,FALSE
+5,Pancakes,Fluffy and delicious pancakes,"flour,milk,eggs,butter,baking powder,sugar,salt",American,Breakfast,sweet,FALSE
+6,Spaghetti Bolognese,A classic Italian pasta dish,"ground beef,tomatoes,pasta,onions,garlic,carrots,celery,red wine,beef broth",Italian,Main Course,savory,FALSE
+7,Chicken Noodle Soup,A comforting and nourishing soup,"chicken,noodles,carrots,celery,onions,chicken broth,thyme,parsley",American,Soup,savory,FALSE
+8,Apple Pie,A classic American dessert,"apples,sugar,flour,butter,cinnamon,nutmeg,lemon juice",American,Dessert,sweet,TRUE
+9,Vegetable Curry,A flavorful and healthy curry,"mixed vegetables,coconut milk,curry paste,onions,garlic,ginger,vegetable broth",Indian,Main Course,spicy,TRUE
+10,Sushi,A Japanese dish of vinegared rice with various toppings,"sushi rice,nori,fish (salmon/tuna),cucumber,avocado,rice vinegar,wasabi,soy sauce",Japanese,Main Course,savory,FALSE
+11,Caesar Salad,A classic salad with a creamy dressing,"romaine lettuce,croutons,parmesan cheese,caesar dressing,anchovies,garlic",Italian,Appetizer,savory,FALSE
+12,Tomato Soup,A comforting soup perfect for cold days,"tomatoes,onions,garlic,vegetable broth,cream,basil",International,Soup,savory,TRUE
+13,Beef Tacos,Flavorful Mexican street food,"ground beef,taco shells,lettuce,tomatoes,cheese,sour cream,taco seasoning",Mexican,Main Course,savory,FALSE
+14,Vegetable Stir Fry,A quick and healthy Asian-inspired dish,"mixed vegetables,tofu,soy sauce,sesame oil,ginger,garlic,rice",Asian,Main Course,savory,TRUE
+15,Lemon Meringue Pie,A tangy and sweet dessert,"pie crust,lemons,sugar,cornstarch,eggs,butter",American,Dessert,sweet,TRUE
+16,Mushroom Risotto,A creamy Italian rice dish,"arborio rice,mushrooms,onions,white wine,vegetable broth,parmesan cheese,butter",Italian,Main Course,savory,TRUE
+17,BBQ Ribs,Tender and saucy barbecue ribs,"pork ribs,bbq sauce,brown sugar,paprika,garlic powder,onion powder",American,Main Course,savory,FALSE
+18,Greek Salad,A refreshing Mediterranean salad,"cucumbers,tomatoes,red onions,feta cheese,olives,olive oil,lemon juice,oregano",Greek,Salad,savory,TRUE
+19,Chicken Tikka Masala,A popular Indian curry dish,"chicken,yogurt,tomato sauce,cream,onions,garlic,ginger,garam masala",Indian,Main Course,spicy,FALSE
+20,Banana Bread,A moist and delicious quick bread,"bananas,flour,sugar,eggs,butter,baking soda,vanilla extract",American,Breakfast,sweet,FALSE
+21,Beef Stroganoff,A creamy Russian-inspired dish,"beef strips,mushrooms,onions,sour cream,beef broth,egg noodles,paprika",Russian,Main Course,savory,FALSE
+22,Caprese Salad,A simple Italian salad,"tomatoes,fresh mozzarella,basil,balsamic vinegar,olive oil",Italian,Salad,savory,TRUE
+23,Pho,A Vietnamese noodle soup,"rice noodles,beef/chicken,bean sprouts,herbs,lime,chili,fish sauce,star anise,cinnamon",Vietnamese,Soup,savory,FALSE
+24,Tiramisu,An Italian coffee-flavored dessert,"ladyfingers,espresso,mascarpone cheese,eggs,sugar,cocoa powder",Italian,Dessert,sweet,FALSE
+25,Falafel,Middle Eastern deep-fried chickpea balls,"chickpeas,onions,garlic,parsley,cumin,coriander,flour",Middle Eastern,Main Course,savory,TRUE
+26,Enchiladas,A Mexican dish with tortillas filled with various ingredients,"corn tortillas,chicken/beef/cheese,enchilada sauce,cheese,onions,olives",Mexican,Main Course,savory,FALSE
+27,Guacamole,A creamy avocado dip,"avocado,lime juice,cilantro,red onion,tomato,salt",Mexican,Appetizer,savory,TRUE
+28,Stir-Fry with Beef and Broccoli,A quick and flavorful Asian dish,"beef,broccoli,red bell pepper,soy sauce,sesame oil,ginger,garlic,rice",Asian,Main Course,savory,FALSE
+29,French Fries,Crispy and salty fried potatoes,"potatoes,vegetable oil,salt",American,Side Dish,savory,FALSE
+30,Spring Rolls,A Vietnamese appetizer with savory filling,"rice paper wrappers,pork/shrimp/vegetables,vermicelli noodles,lettuce,mint,fish sauce",Vietnamese,Appetizer,savory,FALSE
+31,Ratatouille,A French vegetable stew,"eggplant,zucchini,tomatoes,bell peppers,onion,garlic,olive oil,herbs",French,Main Course,savory,TRUE
+32,Pasta Primavera,A light and flavorful pasta dish with spring vegetables,"pasta,assorted vegetables (peas, asparagus, broccoli),garlic,olive oil,parmesan cheese",Italian,Main Course,savory,TRUE
+33,Jambalaya,A Creole dish with rice meat and seafood,"rice,chicken,sausage,shrimp,celery,onion,bell pepper,tomatoes,cajun seasoning",Cajun,Main Course,savory,FALSE
+34,Chili,A hearty and spicy stew with meat and beans,"ground beef/turkey,kidney beans,black beans,tomatoes,chili powder,cumin,onion,garlic",American,Soup,savory,FALSE
+35,Burrito Bowl,A customizable Mexican dish served in a bowl,"rice,beans (black beans, pinto beans),meat (chicken, steak, carnitas),cheese,salsa,guacamole,sour cream",Mexican,Main Course,savory,FALSE
+36,Cobb Salad,A classic American salad with various ingredients,"chicken,bacon,avocado,tomato,cucumber,romaine lettuce,blue cheese,hard-boiled egg,red onion",American,Salad,savory,FALSE
+37,Kung Pao Chicken,A spicy and flavorful Chinese dish,"chicken,peanuts,red bell pepper,cashews,soy sauce,rice vinegar,chili paste,ginger,garlic",Chinese,Main Course,spicy,FALSE
+38,Tofu Scramble,A vegan alternative to scrambled eggs,"tofu,turmeric,nutritional yeast,black pepper,vegetables (onion, bell pepper, spinach)",Vegan,Breakfast,savory,TRUE
+39,Lentil Soup,A hearty and healthy soup with lentils and vegetables,"lentils,carrots,celery,onion,garlic,vegetable broth,herbs (thyme, bay leaf)",International,Soup,savory,TRUE
+40,Minestrone Soup,A classic Italian vegetable soup,"pasta,assorted vegetables (beans, carrots, celery, zucchini),tomatoes,pesto",Italian,Soup,savory,TRUE
+41,Baked Salmon with Lemon and Herbs,A simple and flavorful dish,"salmon fillet,lemon slices,fresh herbs (dill, parsley),olive oil,salt,pepper",Mediterranean,Main Course,savory,FALSE
+42,Quinoa Salad,A nutritious and refreshing salad,"quinoa,cucumber,cherry tomatoes,red onion,feta cheese,olive oil,lemon juice,mint",Mediterranean,Salad,savory,TRUE
+43,Chicken Parmesan,A classic Italian-American dish,"chicken breast,breadcrumbs,parmesan cheese,mozzarella cheese,tomato sauce,pasta",Italian-American,Main Course,savory,FALSE
+44,Vegetable Lasagna,A hearty vegetarian pasta dish,"lasagna noodles,ricotta cheese,spinach,zucchini,mushrooms,tomato sauce,mozzarella cheese",Italian,Main Course,savory,TRUE
+45,Beef and Guinness Stew,A rich and hearty Irish stew,"beef chuck,Guinness beer,potatoes,carrots,onions,celery,beef broth,thyme",Irish,Main Course,savory,FALSE
+46,Miso Soup,A traditional Japanese soup,"dashi stock,miso paste,tofu,wakame seaweed,green onions",Japanese,Soup,savory,TRUE
+47,Chicken Shawarma,A Middle Eastern wrap sandwich,"chicken thighs,pita bread,yogurt,lemon juice,garlic,cumin,paprika,turmeric",Middle Eastern,Main Course,savory,FALSE
+48,Vegetable Biryani,A fragrant Indian rice dish,"basmati rice,mixed vegetables,onions,garlic,ginger,biryani spices,yogurt,saffron",Indian,Main Course,savory,TRUE
+49,Fish and Chips,A classic British dish,"white fish,potatoes,flour,beer,tartar sauce,lemon wedges",British,Main Course,savory,FALSE
+50,Cauliflower Buffalo Wings,A vegetarian twist on a classic appetizer,"cauliflower,flour,milk,garlic powder,buffalo sauce,blue cheese dressing",American,Appetizer,spicy,TRUE
+51,Beef Pho,A popular Vietnamese noodle soup,"rice noodles,beef broth,beef slices,bean sprouts,herbs,lime,chili",Vietnamese,Soup,savory,FALSE
+52,Margherita Pizza,A simple and classic Italian pizza,"pizza dough,tomatoes,fresh mozzarella,basil,olive oil",Italian,Main Course,savory,TRUE
+53,Chicken Fajitas,A sizzling Tex-Mex dish,"chicken breast,bell peppers,onions,tortillas,sour cream,guacamole,salsa",Mexican,Main Course,savory,FALSE
+54,Shakshuka,A Middle Eastern breakfast dish,"eggs,tomatoes,bell peppers,onions,garlic,cumin,paprika,bread",Middle Eastern,Breakfast,savory,TRUE
+55,Beef Bulgogi,A Korean marinated beef dish,"beef sirloin,soy sauce,brown sugar,sesame oil,garlic,ginger,green onions",Korean,Main Course,savory,FALSE
+56,Vegetable Tempura,A Japanese deep-fried vegetable dish,"assorted vegetables,tempura batter,dipping sauce",Japanese,Appetizer,savory,TRUE
+57,Clam Chowder,A creamy seafood soup,"clams,potatoes,onions,celery,bacon,heavy cream,thyme",American,Soup,savory,FALSE
+58,Spanakopita,A Greek spinach pie,"phyllo dough,spinach,feta cheese,onions,eggs,dill",Greek,Appetizer,savory,TRUE
+59,Beef Wellington,An elegant British dish,"beef tenderloin,mushroom duxelles,prosciutto,puff pastry,dijon mustard",British,Main Course,savory,FALSE
+60,Vegan Chocolate Mousse,A dairy-free chocolate dessert,"avocado,cocoa powder,maple syrup,vanilla extract,almond milk",Vegan,Dessert,sweet,TRUE
