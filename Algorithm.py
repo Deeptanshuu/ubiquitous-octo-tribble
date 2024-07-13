@@ -72,7 +72,7 @@ top_n_indices = np.argsort(weighted_similarities)[-top_n:][::-1]
 top_recipes = recipes_data.iloc[top_n_indices]
 
 # Print recommendations
-print("Top Recommended Recipes:")
+print("Top 5 Recommended Recipes:")
 for index, row in top_recipes.iterrows():
     print(f"- id: {row['id']} \n"
           f"  name: {row['name']}\n"
