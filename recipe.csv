@@ -24,3 +24,19 @@ id,name,description,ingredients,cuisine,course,craving,veg
 23,"Pho","A Vietnamese noodle soup","rice noodles,beef/chicken,bean sprouts,herbs,lime,chili,fish sauce,star anise,cinnamon","Vietnamese","Soup","savory",False
 24,"Tiramisu","An Italian coffee-flavored dessert","ladyfingers,espresso,mascarpone cheese,eggs,sugar,cocoa powder","Italian","Dessert","sweet",False
 25,"Falafel","Middle Eastern deep-fried chickpea balls","chickpeas,onions,garlic,parsley,cumin,coriander,flour","Middle Eastern","Main Course","savory",True
+26,"Enchiladas","A Mexican dish with tortillas filled with various ingredients","corn tortillas,chicken/beef/cheese,enchilada sauce,cheese,onions,olives","Mexican","Main Course","savory",False
+27,"Guacamole","A creamy avocado dip","avocado,lime juice,cilantro,red onion,tomato,salt","Mexican","Appetizer","savory",True
+28,"Stir-Fry with Beef and Broccoli","A quick and flavorful Asian dish","beef,broccoli,red bell pepper,soy sauce,sesame oil,ginger,garlic,rice","Asian","Main Course","savory",False
+29,"French Fries","Crispy and salty fried potatoes","potatoes,vegetable oil,salt","American","Side Dish","savory",False
+30,"Spring Rolls","A Vietnamese appetizer with savory filling","rice paper wrappers,pork/shrimp/vegetables,vermicelli noodles,lettuce,mint,fish sauce","Vietnamese","Appetizer","savory",False
+31,"Ratatouille","A French vegetable stew","eggplant,zucchini,tomatoes,bell peppers,onion,garlic,olive oil,herbs","French","Main Course","savory",True
+32,"Pasta Primavera","A light and flavorful pasta dish with spring vegetables","pasta,assorted vegetables (peas, asparagus, broccoli),garlic,olive oil,parmesan cheese","Italian","Main Course","savory",True
+33,"Jambalaya","A Creole dish with rice, meat, and seafood","rice,chicken,sausage,shrimp,celery,onion,bell pepper,tomatoes,cajun seasoning","Cajun","Main Course","savory",False
+34,"Chili","A hearty and spicy stew with meat and beans","ground beef/turkey,kidney beans,black beans,tomatoes,chili powder,cumin,onion,garlic","American","Soup","savory",False
+35,"Burrito Bowl","A customizable Mexican dish served in a bowl","rice,beans (black beans, pinto beans),meat (chicken, steak, carnitas),cheese,salsa,guacamole,sour cream","Mexican","Main Course","savory",False
+36,"Cobb Salad","A classic American salad with various ingredients","chicken,bacon,avocado,tomato,cucumber,romaine lettuce,blue cheese,hard-boiled egg,red onion","American","Salad","savory",False
+37,"Kung Pao Chicken","A spicy and flavorful Chinese dish","chicken,peanuts,red bell pepper,cashews,soy sauce,rice vinegar,chili paste,ginger,garlic","Chinese","Main Course","spicy",False
+38,"Tofu Scramble","A vegan alternative to scrambled eggs","tofu,turmeric,nutritional yeast,black pepper,vegetables (onion, bell pepper, spinach)","Vegan","Breakfast","savory",True
+39,"Lentil Soup","A hearty and healthy soup with lentils and vegetables","lentils,carrots,celery,onion,garlic,vegetable broth,herbs (thyme, bay leaf)","International","Soup","savory",True
+40,"Minestrone Soup","A classic Italian vegetable soup","pasta,assorted vegetables (beans, carrots, celery, zucchini),tomatoes,pesto","Italian","Soup","savory",True
+41,"Baked Salmon with Lemon and Herbs","A simple and flavorful dish","salmon fillet,lemon slices,fresh herbs (dill, parsley),olive oil,salt,pepper","Mediterranean","Main Course","savory",False

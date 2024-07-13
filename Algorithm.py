@@ -19,7 +19,7 @@ recipes_data["ingredients_list"] = recipes_data["ingredients"].apply(lambda x: x
 recipes_data["ingredients_text"] = recipes_data["ingredients_list"].apply(lambda x: " ".join(x))
 
 # Get user input for ingredients, cuisine, course, and craving (optional)
-user_ingredients = ["curry paste", "coconut milk", "vegetables", "chicken"]
+user_ingredients = ["curry paste", "coconut milk", "vegetables"]
 user_ingredients_text = " ".join(user_ingredients)
 user_cuisine = None  # Replace with user input (optional)
 user_course = "Main Course"  # Replace with user input (optional)
