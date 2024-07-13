@@ -108,29 +108,32 @@ const Home = () => {
       description: "A classic Italian pasta dish with eggs, cheese, and pancetta",
       cookTime: 30,
       servings: 4,
-      difficulty: "Medium"
+      difficulty: "Medium",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     },
     {
       title: "Chicken Stir Fry",
       description: "Quick and easy Asian-inspired dish with vegetables",
       cookTime: 20,
       servings: 3,
-      difficulty: "Easy"
+      difficulty: "Easy",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     },
     {
       title: "Beef Wellington",
       description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
       cookTime: 120,
       servings: 6,
-      difficulty: "Hard"
+      difficulty: "Hard",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     }
   ];
 
-  const RecipeCard = ({ title, description, cookTime, servings, difficulty }) => (
-    <div className="w-auto h-96 m-10 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+  const RecipeCard = ({ title, description, cookTime, servings, difficulty, image }) => (
+    <div className="w-auto h-200 m-10 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
       <div className="p-4">
         <img
-          src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+          src={image}
           alt="Recipe"
           className="w-full h-40 object-cover mb-4"
         />
@@ -157,6 +160,7 @@ const Home = () => {
           }`}>
           {difficulty}
         </span>
+        <button type="button" class="w-1/4 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")}>See Recipe</button>
       </div>
     </div>
   );
@@ -164,8 +168,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="home flex flex-row items-center">
-        <div className="search-menu w-1/3 h-screen p-10 bg-gray-200 shadow-2xl">
+      <div className="home flex flex-row items-center ">
+        <div className="search-menu w-1/3 items-center h-screen p-10 bg-gray-200 shadow-2xl">
           <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
 
           {/* Ingredients Section */}
@@ -250,7 +254,7 @@ const Home = () => {
               {expandedSections.courses ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
             </button>
             {expandedSections.courses && (
-              <div className="mt-4 p-5 grid grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="mt-4 p-0 grid grid-cols-2 md:grid-cols-3 gap-2">
                 {courses.map(course => (
                   <label key={course} className="flex items-center space-x-2 cursor-pointer">
                     <input
@@ -293,7 +297,7 @@ const Home = () => {
           </div>
 
           {/* Submit Button */}
-          <button className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg text-lg font-semibold hover:bg-blue-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button className="w-1/2 bg-gray-800 text-white py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
             Find Recipes
           </button>
         </div>
@@ -309,6 +313,7 @@ const Home = () => {
                 cookTime={recipe.cookTime}
                 servings={recipe.servings}
                 difficulty={recipe.difficulty}
+                image={recipe.image}
               />
             ))}
 
