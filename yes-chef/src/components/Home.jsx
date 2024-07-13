@@ -166,7 +166,7 @@ const Home = () => {
     <>
       <div className="home flex flex-row items-center">
         <div className="search-menu w-1/3 h-screen p-10 bg-gray-200 shadow-2xl">
-          <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's in your frigde ?</h2>
+          <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
 
           {/* Ingredients Section */}
           <div className="mb-8">
