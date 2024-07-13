@@ -14,20 +14,17 @@ recipes_data = pd.read_csv("recipe.csv")
 # Optional: Clean recipe descriptions (replace with your cleaning steps)
 # Consider stemming or lemmatization here
 
-
 # Extract and join ingredients into text
 recipes_data["ingredients_list"] = recipes_data["ingredients"].apply(lambda x: x.strip().split(","))
 recipes_data["ingredients_text"] = recipes_data["ingredients_list"].apply(lambda x: " ".join(x))
 
-
 # Get user input for ingredients, cuisine, course, and craving (optional)
 user_ingredients = ["curry paste", "coconut milk", "vegetables", "chicken"]
-#user_ingredients = ["flour", "sugar", "eggs", "butter", "chocolate chips"]
 user_ingredients_text = " ".join(user_ingredients)
 user_cuisine = None  # Replace with user input (optional)
 user_course = "Main Course"  # Replace with user input (optional)
-user_craving = None 
-user_veg = True  # Replace with user input (optional)
+user_craving = "spicy" 
+user_veg = False  # Replace with user input (optional)
 
 # Filter vegetarian recipes
 if 'veg' in recipes_data.columns:
@@ -44,46 +41,43 @@ vectorizer = TfidfVectorizer(binary=True)
 recipe_vectors = vectorizer.fit_transform(recipes_data["ingredients_text"])
 
 # Transform user input
-user_vector = vectorizer.transform([user_ingredients_text])[0]
+user_vector = vectorizer.transform([user_ingredients_text])
 
 # Calculate cosine similarity (TF-IDF)
-similarities = cosine_similarity(user_vector.reshape(1, -1), recipe_vectors)
+similarities = cosine_similarity(user_vector, recipe_vectors).flatten()
 
-def calculate_weighted_similarity(similarity, user_cuisine, user_course, user_craving):
-  """
-  Calculates weighted similarity score based on TF-IDF and user preferences.
-  """
-  user_pref_similarity = 0
-  if user_cuisine in recipes_data["cuisine"].unique():
-    user_pref_similarity += cuisine_weight
-  if user_course in recipes_data["course"].unique():
-    user_pref_similarity += course_weight
-  if user_craving in recipes_data["craving"].unique():
-    user_pref_similarity += craving_weight
-  weighted_similarity = -similarity * (1 - user_pref_similarity) + user_pref_similarity
-  return weighted_similarity
+def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course, user_craving):
+    """
+    Calculates weighted similarity score based on TF-IDF and user preferences.
+    """
+    user_pref_similarity = 0
+    if user_cuisine and user_cuisine == recipe['cuisine']:
+        user_pref_similarity += cuisine_weight
+    if user_course and user_course == recipe['course']:
+        user_pref_similarity += course_weight
+    if user_craving and user_craving == recipe['craving']:
+        user_pref_similarity += craving_weight
+    weighted_similarity = similarity * (1 - (cuisine_weight + course_weight + craving_weight)) + user_pref_similarity
+    return weighted_similarity
 
 # Calculate weighted similarity for each recipe
-weighted_similarities = [calculate_weighted_similarity(sim, user_cuisine, user_course, user_craving) for sim in similarities]
+weighted_similarities = [
+    calculate_weighted_similarity(sim, recipes_data.iloc[idx], user_cuisine, user_course, user_craving)
+    for idx, sim in enumerate(similarities)
+]
 
-# Print debugging information
-#print("TF-IDF Similarities:")
-#print(similarities)  # Print raw TF-IDF similarities
-
-#print("Weighted Similarities:")
-#print(weighted_similarities)  # Print weighted similarities
-
-# Assuming you want top 3 recommendations
-top_n_indices = np.argsort(weighted_similarities) # Use NumPy for efficient sorting (import numpy as np)
-top_recipes = recipes_data.iloc[top_n_indices.flatten()]  # Flatten top_n_indices for indexing
+# Get top N recommendations
+top_n = 5
+top_n_indices = np.argsort(weighted_similarities)[-top_n:][::-1]
+top_recipes = recipes_data.iloc[top_n_indices]
 
 # Print recommendations
 print("Top Recommended Recipes:")
 for index, row in top_recipes.iterrows():
     print(f"- id: {row['id']} \n"
           f"  name: {row['name']}\n"
-          f"  course: {row['course']}\n"
-          f"  cuisine: {row['cuisine']}\n"
-          f"  craving: {row['craving']}\n"
-          f"  ingredients: {row['ingredients']}\n"
+          #f"  course: {row['course']}\n"
+          #f"  cuisine: {row['cuisine']}\n"
+          #f"  craving: {row['craving']}\n"
+          #f"  ingredients: {row['ingredients']}\n"
           f"  vegetarian: {row['veg']}\n")
