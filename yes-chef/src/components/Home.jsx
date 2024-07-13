@@ -127,8 +127,13 @@ const Home = () => {
   ];
 
   const RecipeCard = ({ title, description, cookTime, servings, difficulty }) => (
-    <div className="w-auto h-96 m-4 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+    <div className="w-auto h-96 m-10 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
       <div className="p-4">
+        <img
+          src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+          alt="Recipe"
+          className="w-full h-40 object-cover mb-4"
+        />
       </div>
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{title}</h2>
