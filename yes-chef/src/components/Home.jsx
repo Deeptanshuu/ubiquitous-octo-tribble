@@ -136,7 +136,7 @@ const Home = () => {
     console.log(cleanedCuisines);
     console.log(cleanedCourses);
     console.log(cleanedCravings);
-    
+
     const data = {
       ingredients: cleanedIngredients,
       craving: cleanedCravings,
@@ -213,7 +213,7 @@ const Home = () => {
     }
   ];
 */
-  const RecipeCard = ({ title, description, cookTime, servings, difficulty, image }) => (
+  const RecipeCard = ({ id,title, description, cookTime, servings, difficulty, image }) => (
     <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
       <div className="p-4">
         <img
@@ -229,11 +229,11 @@ const Home = () => {
       <div className="px-4 flex-grow">
         <div className="flex items-center mb-2">
           <Clock className="mr-2 text-gray-500" size={24} />
-          <span className="text-sm text-gray-700">{cookTime} mins</span>
+          <span className="text-sm text-gray-700">{cookTime}</span>
         </div>
         <div className="flex items-center mb-2">
           <Utensils className="mr-2 text-gray-500" size={24} />
-          <span className="text-sm text-gray-700">{servings} servings</span>
+          <span className="text-sm text-gray-700">{servings}</span>
         </div>
       </div>
       <div className="p-4 flex justify-between items-center border-t border-gray-300">
@@ -244,7 +244,7 @@ const Home = () => {
           }`}>
           {difficulty}
         </span>
-        <button type="button" class="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")}>See Recipe</button>
+        <button type="button" class="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={() => navigate(`/recipe/${id}`)}>See Recipe</button>
       </div>
     </div>
   );
@@ -393,12 +393,12 @@ const Home = () => {
             {searchResults.length === 0 ? (
               <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">No Result Found</h1>
             ) : (
-              searchResults.map((recipe, index) => (
+              searchResults.map((recipe) => (
                 <RecipeCard
-                  key={index}
+                  id={recipe.id}
                   title={recipe.title}
                   description={recipe.description}
-                  cookTime={recipe.cookTime}
+                  cookTime={recipe.cooking_time}
                   servings={recipe.servings}
                   difficulty={recipe.difficulty}
                   image={recipe.image}
