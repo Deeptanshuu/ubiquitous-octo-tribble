@@ -9,8 +9,8 @@ const Home = () => {
   const [selectedCravings, setSelectedCravings] = useState([]);
   const [expandedSections, setExpandedSections] = useState({
     ingredients: true,
-    cuisines: false,
-    courses: false,
+    cuisines: true,
+    courses: true,
     cravings: false,
   });
   const [searchTerm, setSearchTerm] = useState('');
@@ -176,7 +176,7 @@ const Home = () => {
 */
   function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
     return (
-      <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
+      <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-500 rounded-lg shadow-md  flex flex-col">
         <div className="p-4">
           <img
             src={image}
@@ -215,8 +215,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="home flex flex-row bg-gray-200">
-        <div className="search-menu w-1/3 items-center p-5 bg-gray-200 ">
+      <div className="home flex flex-row bg-white">
+        <div className="search-menu w-1/3 items-center p-5 bg-slate-400 ">
           <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
 
           {/* Ingredients Section */}
@@ -240,7 +240,7 @@ const Home = () => {
                   />
                   <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
                 </div>
-                <div className="flex max-h-80 overflow-auto flex-wrap gap-2">
+                <div className="flex p-5 max-h-80 overflow-auto flex-wrap gap-2">
                   {filteredIngredients.map(ingredient => (
                     <button
                       key={ingredient}
@@ -301,7 +301,7 @@ const Home = () => {
               {expandedSections.courses ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
             </button>
             {expandedSections.courses && (
-              <div className="mt-4 p-0 grid grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="mt-4 p-5 grid grid-cols-2 md:grid-cols-3 gap-2">
                 {courses.map(course => (
                   <label key={course} className="flex items-center space-x-2 cursor-pointer">
                     <input
@@ -350,11 +350,11 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="result w-2/3 h-screen bg-gray-200">
+        <div className="result w-2/3 h-screen p-5 bg-white-200">
           <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">Top Recommendation</h1>
             <div className="grid grid-cols-3 gap-6">
             {searchResults.length === 0 ? (
-              <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">No Result Found</h1>
+              <h1 className="text-3xl w-full p-3 t-0 font-bold mb-6 text-center"> 👈 Use the filters to get started</h1>
             ) : (
               searchResults.map((recipe) => (
                 <RecipeCard
