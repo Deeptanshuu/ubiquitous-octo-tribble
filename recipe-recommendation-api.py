@@ -76,7 +76,7 @@ def recommend():
     ]
 
     # Get top N recommendations
-    top_n = 10
+    top_n = 15
     top_n_indices = np.argsort(weighted_similarities)[-top_n:][::-1]
     top_recipes = recipes_data.iloc[top_n_indices]
 
@@ -86,11 +86,13 @@ def recommend():
         recommendations.append({
             'id': row['id'],
             'title': row['name'],
-            'course': row['course'],
-            'cuisine': row['cuisine'],
+            'description': row['description'],
+            #'course': row['course'],
+            #'cuisine': row['cuisine'],
             'difficulty': row['difficulty'],
             'cooking_time': row['cooking_time'],
-            'servings': row['servings']
+            'servings': row['serving_size'],
+            'image': f"./src/assets/id-{row['id']}/id-{row['id']}-cover.jpeg",
             #'craving': row['craving'],
             #'ingredients': row['ingredients'],
             #'vegetarian': row['veg'],

@@ -102,7 +102,7 @@ const Home = () => {
     ingredient.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const exampleRecipes = [
+  /*const exampleRecipes = [
     {
       title: "Spaghetti Carbonara",
       description: "A classic Italian pasta dish with eggs, cheese, and pancetta",
@@ -151,10 +151,10 @@ const Home = () => {
       difficulty: "Hard",
       image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     }
-  ];
+  ];*/
 
   const RecipeCard = ({ title, description, cookTime, servings, difficulty, image }) => (
-    <div className="w-auto h-200 m-10 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+    <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
       <div className="p-4">
         <img
           src={image}
@@ -184,7 +184,7 @@ const Home = () => {
           }`}>
           {difficulty}
         </span>
-        <button type="button" class="w-1/4 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")}>See Recipe</button>
+        <button type="button" class="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")}>See Recipe</button>
       </div>
     </div>
   );
@@ -328,7 +328,7 @@ const Home = () => {
 
         <div className="result w-2/3 h-screen bg-gray-200">
           <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">Top Recommendation</h1>
-            
+            <div className="grid grid-cols-3 gap-6">
             {exampleRecipes.map((recipe, index) => (
               <RecipeCard
                 key={index}
@@ -340,7 +340,7 @@ const Home = () => {
                 image={recipe.image}
               />
             ))}
-
+          </div>
         </div>
       </div>
 
