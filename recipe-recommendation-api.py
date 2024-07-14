@@ -85,12 +85,16 @@ def recommend():
     for _, row in top_recipes.iterrows():
         recommendations.append({
             'id': row['id'],
-            'name': row['name'],
+            'title': row['name'],
             'course': row['course'],
             'cuisine': row['cuisine'],
-            'craving': row['craving'],
-            'ingredients': row['ingredients'],
-            'vegetarian': row['veg']
+            'difficulty': row['difficulty'],
+            'cooking_time': row['cooking_time'],
+            'servings': row['servings']
+            #'craving': row['craving'],
+            #'ingredients': row['ingredients'],
+            #'vegetarian': row['veg'],
+            
         })
 
     return jsonify(recommendations)
