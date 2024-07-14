@@ -104,18 +104,13 @@ def recommend():
 
     return jsonify(recommendations)
 
-
-@app.route('/api/recipe', methods=['POST'])
+@app.route('/api/recpie', methods=['POST'])
 def recipe():
     data = request.json
     id = data.get('id')
+    id = int(id)
     global recipes_data
     recipes_data = pd.read_csv("recipe.csv")
-
-    # Optional: Clean recipe descriptions (replace with your cleaning steps)
-    # Consider stemming or lemmatization here
-
-    # Extract and join ingredients into text
     recipe = recipes_data[recipes_data['id'] == id].to_dict('records')[0]
     recipe_data = {
         'image': f"./src/assets/id-{id}/id-{id}-cover.jpeg",
