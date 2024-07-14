@@ -126,6 +126,30 @@ const Home = () => {
       servings: 6,
       difficulty: "Hard",
       image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+    },
+    {
+      title: "Beef Wellington",
+      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
+      cookTime: 120,
+      servings: 6,
+      difficulty: "Hard",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+    },
+    {
+      title: "Beef Wellington",
+      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
+      cookTime: 120,
+      servings: 6,
+      difficulty: "Hard",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+    },
+    {
+      title: "Beef Wellington",
+      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
+      cookTime: 120,
+      servings: 6,
+      difficulty: "Hard",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     }
   ];
 
@@ -168,7 +192,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="home flex flex-row overflow-auto items-center bg-gray-200">
+      <div className="home flex flex-row bg-gray-200">
         <div className="search-menu w-1/3 items-center p-5 bg-gray-200 overflow-auto">
           <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
 
@@ -302,8 +326,8 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="result w-2/3 h-screen bg-zinc-200">
-          <h1 className="text-3xl p-8 font-bold mb-6 text-center">Top Recommendation</h1>
+        <div className="result w-2/3 h-screen bg-white-200">
+          <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">Top Recommendation</h1>
             
             {exampleRecipes.map((recipe, index) => (
               <RecipeCard
