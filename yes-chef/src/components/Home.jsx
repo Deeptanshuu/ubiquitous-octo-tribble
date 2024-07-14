@@ -193,7 +193,7 @@ const Home = () => {
   return (
     <>
       <div className="home flex flex-row bg-gray-200">
-        <div className="search-menu w-1/3 items-center p-5 bg-gray-200 overflow-auto">
+        <div className="search-menu w-1/3 items-center p-5 bg-gray-200 ">
           <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
 
           {/* Ingredients Section */}
@@ -326,7 +326,7 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="result w-2/3 h-screen bg-white-200">
+        <div className="result w-2/3 h-screen bg-gray-200">
           <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">Top Recommendation</h1>
             
             {exampleRecipes.map((recipe, index) => (
