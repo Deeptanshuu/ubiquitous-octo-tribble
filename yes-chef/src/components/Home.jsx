@@ -216,7 +216,7 @@ const Home = () => {
   return (
     <>
       <div className="home flex flex-row bg-white">
-        <div className="search-menu w-1/3 items-center p-5 bg-slate-400 ">
+        <div className="search-menu w-1/3 border-r-2 border-gray-600 items-center p-5 bg-white ">
           <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
 
           {/* Ingredients Section */}
@@ -245,8 +245,8 @@ const Home = () => {
                     <button
                       key={ingredient}
                       onClick={() => handleIngredientToggle(ingredient)}
-                      className={`px-3 py-1 rounded-full text-m font-medium transition duration-200 ${selectedIngredients.includes(ingredient)
-                          ? 'bg-blue-500 text-white'
+                      className={`px-3 py-1 border-2 border-slate-500 rounded-full text-m font-medium transition duration-200 ${selectedIngredients.includes(ingredient)
+                          ? 'bg-stone-700 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                         }`}
                     >
@@ -276,8 +276,8 @@ const Home = () => {
                   <button
                     key={cuisines}
                     onClick={() => handleCuisineChange(cuisines)}
-                    className={`px-3 py-1 rounded-full text-m font-medium transition duration-200 ${selectedCuisines.includes(cuisines)
-                        ? 'bg-blue-500 text-white'
+                    className={`px-3 py-1 border-2 border-slate-500 rounded-full text-m font-medium transition duration-200 ${selectedCuisines.includes(cuisines)
+                        ? 'bg-stone-700 text-white'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                   >
