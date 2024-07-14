@@ -96,7 +96,7 @@ def recommend():
             'image': f"./src/assets/id-{row['id']}/id-{row['id']}-cover.jpeg",
             #'craving': row['craving'],
             #'ingredients': row['ingredients'],
-            #'vegetarian': row['veg'],
+            'veg': row['veg'],
             #'course': row['course'],
             #'cuisine': row['cuisine'],
             
@@ -113,8 +113,8 @@ def recipe():
     recipes_data = pd.read_csv("recipe.csv")
     recipe = recipes_data[recipes_data['id'] == id].to_dict('records')[0]
     recipe_data = {
-        'image': f"./src/assets/id-{id}/id-{id}-cover.jpeg",
-        'image-2': f"./src/assets/id-{id}/id-{id}-cover (2).jpeg"
+        'image': f"./src/assets/id-{id}/id-{id}-cover (2).jpeg",
+        #'image-2': f"./src/assets/id-{id}/id-{id}-cover (2).jpeg"
     }
     recipe.update(recipe_data)
     return jsonify(recipe)

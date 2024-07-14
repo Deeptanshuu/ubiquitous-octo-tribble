@@ -174,7 +174,7 @@ const Home = () => {
     }
   ];
 */
-  function RecipeCard({ id, title, description, cookTime, servings, difficulty, image }) {
+  function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
     return (
       <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
         <div className="p-4">
@@ -188,6 +188,7 @@ const Home = () => {
           <p className="text-gray-600 mb-4">{description}</p>
         </div>
         <div className="px-4 flex-grow">
+        {veg ? <p className="px-3 py-1 w-16 my-2 text-center text-m rounded-full font-semibold bg-green-300 text-green-800">Veg</p> : <p className="px-3 py-1 w-24 my-2 text-center rounded-full font-semibold bg-red-300 text-red-800">Non-Veg</p>}
           <div className="flex items-center mb-2">
             <Clock className="mr-2 text-gray-500" size={24} />
             <span className="text-sm text-gray-700">{cookTime}</span>
@@ -364,6 +365,7 @@ const Home = () => {
                   servings={recipe.servings}
                   difficulty={recipe.difficulty}
                   image={recipe.image}
+                  veg= {recipe.veg}
                 />
               ))
             )}
