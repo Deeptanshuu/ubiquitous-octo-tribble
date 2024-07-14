@@ -1025,7 +1025,7 @@ Serve: Serve the Caprese Salad immediately, garnished with additional basil leav
 1/4 cup (15g) fresh basil leaves, chopped
 Salt, to taste
 Freshly ground black pepper, to taste",Medium
-23,Pho,A Vietnamese noodle soup,"rice noodles, beef/chicken, bean sprouts, herbs, lime, chili, fish sauce, star anise, cinnamon      ",Vietnamese,Soup,savory,FALSE,30 minutes,1 bowl,"Step 1: Make the Broth
+23,Pho,A Vietnamese noodle soup,"rice noodles, beef,chicken, bean sprouts, herbs, lime, chili, fish sauce, star anise, cinnamon      ",Vietnamese,Soup,savory,FALSE,30 minutes,1 bowl,"Step 1: Make the Broth
 
 Roast the bones: Preheat the oven to 400°F (200°C). Place the beef bones on a baking sheet and roast for 30 minutes, or until browned.
 Make the broth: In a large stockpot, combine the roasted bones, beef brisket or chuck, fish sauce, soy sauce, sugar, onion, garlic, ginger, star anise, cinnamon stick, cinnamon, cloves, and cardamom. Pour in the beef broth and water, and bring to a boil.
@@ -1119,7 +1119,7 @@ Serve: Serve the falafels hot in a pita bread with your favorite toppings, such 
 Vegetable oil for frying
 Salt, to taste
 Optional: paprika, garlic powder, or other spices of your choice",Hard
-26,Enchiladas,A Mexican dish with tortillas filled with various ingredients,"corn tortillas, chicken/beef/cheese, enchilada sauce, cheese, onions, olives                        ",Mexican,Main Course,savory,FALSE,1-2 hrs,2-3 per serve,"Step 1: Prepare the Meat Filling
+26,Enchiladas,A Mexican dish with tortillas filled with various ingredients,"corn tortillas, chicken,beef,cheese, enchilada sauce, cheese, onions, olives                        ",Mexican,Main Course,savory,FALSE,1-2 hrs,2-3 per serve,"Step 1: Prepare the Meat Filling
 
 In a large skillet, cook the ground beef over medium-high heat until browned, breaking it up into small pieces as it cooks.
 Add the diced onion and minced garlic to the skillet and cook until the onion is translucent.
@@ -1221,7 +1221,7 @@ Serve the French fries hot and enjoy!","2-3 large potatoes
 Vegetable oil for frying (about 2-3 inches deep in a pot)
 Salt, to taste
 Optional: Additional seasonings, such as paprika, garlic powder, or chili powder",Medium
-30,Spring Rolls,A Vietnamese appetizer with savory filling,"rice paper wrappers, pork/shrimp/vegetables, vermicelli noodles, lettuce, mint, fish sauce          ",Vietnamese,Appetizer,savory,FALSE,15-20 minutes,2-3 per serve,"Step 1: Prepare the Filling
+30,Spring Rolls,A Vietnamese appetizer with savory filling,"rice paper wrappers, pork,shrimp,vegetables, vermicelli noodles, lettuce, mint, fish sauce          ",Vietnamese,Appetizer,savory,FALSE,15-20 minutes,2-3 per serve,"Step 1: Prepare the Filling
 
 Choose your desired filling ingredients and prepare them according to your preference. For example, chop the vegetables, cook the meat or shrimp, and season with salt and pepper.
 Step 2: Assemble the Spring Rolls
@@ -1319,7 +1319,7 @@ Crushed tomatoes: For flavor
 White rice: Long grain is traditional, but short grain white rice also works
 Okra: Fresh or frozen; we will use this to help thicken the jambalaya
 Salt and Black Pepper: Very important! Don't forget to taste and season with salt and pepper to taste at the end",Hard
-34,Chili,A hearty and spicy stew with meat and beans,"ground beef/turkey, kidney beans, black beans, tomatoes, chili powder, cumin, garlic                ",American,Soup,savory,FALSE,20-30 minutes,1 bowl,"Step 1: Brown the Ground Beef
+34,Chili,A hearty and spicy stew with meat and beans,"ground beef,turkey, kidney beans, black beans, tomatoes, chili powder, cumin, garlic                ",American,Soup,savory,FALSE,20-30 minutes,1 bowl,"Step 1: Brown the Ground Beef
 
 In a large pot or Dutch oven, heat 1-2 tablespoons of oil over medium-high heat.
 Add 1-2 pounds of ground beef (you can use ground turkey, chicken, or beans for a vegetarian option) and cook until browned, breaking it up into small pieces as it cooks.
@@ -2113,7 +2113,7 @@ Kosher salt
 Black pepper
 Unsalted butter
 Olive oil",Easy
-60,Vegan Chocolate Mousse,A dairy-free chocolate dessert,"avocado, cocoa powder, maple syrup, vanilla extract, almond milk                                    ",Vegan,Dessert,sweet,TRUE,2-3 hrs,1-2 serves,"Step 1: Melt the Chocolate
+60,Vegan Chocolate Mousse,A dairy-free chocolate dessert,"cocoa powder, maple syrup, vanilla extract, almond milk                                    ",Vegan,Dessert,sweet,TRUE,2-3 hrs,1-2 serves,"Step 1: Melt the Chocolate
 In a double boiler or a heatproof bowl set over a pot of simmering water, melt the chocolate chips. Stir occasionally until smooth.
 Remove from heat and let cool slightly.
 Step 2: Prepare the Coconut Cream

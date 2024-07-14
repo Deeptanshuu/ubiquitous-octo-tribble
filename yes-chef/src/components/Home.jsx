@@ -14,6 +14,21 @@ const Home = () => {
     cravings: false,
   });
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  function removeEmojis(str) {
+    return str.replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
+              .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Symbols & Pictographs
+              .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport & Map Symbols
+              .replace(/[\u{1F700}-\u{1F77F}]/gu, '') // Alchemical Symbols
+              .replace(/[\u{1F780}-\u{1F7FF}]/gu, '') // Geometric Shapes Extended
+              .replace(/[\u{1F800}-\u{1F8FF}]/gu, '') // Supplemental Arrows-C
+              .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols and Pictographs
+              .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') // Chess Symbols
+              .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
+              .replace(/[\u{1FB00}-\u{1FBFF}]/gu, '') // Symbols for Legacy Computing
+              .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, ''); // Flags
+  }
 
   const ingredients = [
     'flour 🌾', 'sugar 🍬', 'eggs 🥚', 'chocolate chips 🍫', 'butter 🧈', 'vanilla extract 🌼',
@@ -23,7 +38,7 @@ const Home = () => {
     'vegetable oil 🌻', 'baking powder 🥄', 'salt 🧂', 'ground beef 🥩', 'pasta 🍝', 'carrots 🥕',
     'celery 🌿', 'red wine 🍷', 'beef broth 🍲', 'noodles 🍜', 'thyme 🌿', 'parsley 🌿', 'apples 🍎',
     'cinnamon 🍂', 'nutmeg 🍂', 'lemon juice 🍋', 'mixed vegetables 🥗', 'vegetable broth 🥣',
-    'sushi rice 🍚', 'nori 🍙', 'fish (salmon/tuna) 🐟', 'cucumber 🥒', 'avocado 🥑', 'rice vinegar 🍚',
+    'sushi rice 🍚', 'nori 🍙', 'fish (salmon/tuna) 🐟', 'cucumber 🥒', 'avocado 🥑',
     'wasabi 🌶️', 'soy sauce 🍶', 'romaine lettuce 🥬', 'croutons 🥖', 'parmesan cheese 🧀', 'caesar dressing 🥗',
     'anchovies 🐟', 'cream 🥛', 'basil 🌿', 'taco shells 🌮', 'lettuce 🥬', 'cheese 🧀', 'sour cream 🍶',
     'taco seasoning 🌶️', 'sesame oil 🌻', 'rice 🍚', 'pie crust 🥧', 'lemons 🍋', 'cornstarch 🌽',
@@ -34,7 +49,7 @@ const Home = () => {
     'beef/chicken 🥩🍗', 'herbs 🌿', 'chili 🌶️', 'star anise 🌟', 'ladyfingers 🍰', 'espresso ☕', 'mascarpone cheese 🧀',
     'chickpeas 🌱', 'cumin 🌿', 'coriander 🌿', 'corn tortillas 🌽', 'chicken/beef/cheese 🍗🥩🧀', 'enchilada sauce 🌶️',
     'red onion 🧅', 'beef 🥩', 'broccoli 🥦', 'red bell pepper 🌶️', 'potatoes 🥔', 'rice paper wrappers 🍚',
-    'pork/shrimp/vegetables 🍖🍤🥗', 'vermicelli noodles 🍜', 'mint 🌿', 'eggplant 🍆', 'zucchini 🥒', 'bell peppers 🌶️',
+    'pork/shrimp/vegetables 🍖🍤🥗', 'vermicelli noodles 🍜', 'mint 🌿', 'eggplant 🍆', 'zucchini 🥒', 
     'assorted vegetables 🥗', 'sausage 🌭', 'shrimp 🍤', 'cajun seasoning 🌶️', 'ground beef/turkey 🥩🦃',
     'kidney beans 🌱', 'black beans 🌱', 'chili powder 🌶️', 'beans (black beans, pinto beans) 🌱',
     'meat (chicken, steak, carnitas) 🍗🥩', 'salsa 🌶️', 'guacamole 🥑', 'bacon 🥓', 'hard-boiled egg 🥚', 'cashews 🥜',
@@ -42,7 +57,7 @@ const Home = () => {
     'lentils 🌱', 'herbs (thyme, bay leaf) 🌿', 'salmon fillet 🐟', 'lemon slices 🍋', 'fresh herbs (dill, parsley) 🌿',
     'pepper 🌶️', 'quinoa 🍚', 'cherry tomatoes 🍅', 'chicken breast 🍗', 'breadcrumbs 🥖', 'mozzarella cheese 🧀',
     'lasagna noodles 🍜', 'ricotta cheese 🧀', 'spinach 🌿', 'beef chuck 🥩', 'Guinness beer 🍺', 'dashi stock 🍲',
-    'miso paste 🍲', 'wakame seaweed 🌿', 'green onions 🧅', 'chicken thighs 🍗', 'pita bread 🥖', 'turmeric 🌿',
+    'miso paste 🍲', 'wakame seaweed 🌿', 'chicken thighs 🍗', 'pita bread 🥖', 'turmeric 🌿',
     'basmati rice 🍚', 'biryani spices 🌿', 'saffron 🌼', 'white fish 🐟', 'tartar sauce 🐟', 'lemon wedges 🍋',
     'cauliflower 🥦', 'blue cheese dressing 🥗', 'beef slices 🥩', 'pizza dough 🍕', 'tortillas 🌮', 'bell peppers 🌶️',
     'beef sirloin 🥩', 'green onions 🧅', 'tempura batter 🍤', 'dipping sauce 🥣', 'clams 🐚', 'heavy cream 🥛',
@@ -66,6 +81,7 @@ const Home = () => {
 
   const cravings = ['Sweet🍦', 'Savory😋', 'Spicy🌶️'];
 
+
   const toggleSection = (section) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
@@ -87,7 +103,7 @@ const Home = () => {
   };
 
   const handleCourseChange = (course) => {
-    setSelectedCourse(course);
+    setSelectedCourse(course); // Directly set the selected course
   };
 
   const handleCravingChange = (craving) => {
@@ -102,7 +118,51 @@ const Home = () => {
     ingredient.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  /*const exampleRecipes = [
+  const cleanedIngredients = selectedIngredients.map(removeEmojis);
+  const cleanedCuisines = selectedCuisines.map(removeEmojis);
+  const cleanedCourses = removeEmojis(selectedCourse);
+  const cleanedCravings = selectedCravings.map(removeEmojis);
+
+  const HandleClick = () => {
+ 
+  }
+  const handleSubmit = async () => {
+    const cleanedIngredients = selectedIngredients.map(removeEmojis);
+    const cleanedCravings = selectedCravings.map(removeEmojis);
+    const cleanedCuisine = selectedCuisines.map(removeEmojis);
+    const cleanedCourse = removeEmojis(selectedCourse);
+
+    console.log(cleanedIngredients);
+    console.log(cleanedCuisines);
+    console.log(cleanedCourses);
+    console.log(cleanedCravings);
+    
+    const data = {
+      ingredients: cleanedIngredients,
+      craving: cleanedCravings,
+      cuisine: cleanedCuisine,
+      course: cleanedCourse,
+      veg: false
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/recommend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      setSearchResults(result);
+      console.log('Success:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+/*  const exampleRecipes = [
     {
       title: "Spaghetti Carbonara",
       description: "A classic Italian pasta dish with eggs, cheese, and pancetta",
@@ -151,8 +211,8 @@ const Home = () => {
       difficulty: "Hard",
       image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     }
-  ];*/
-
+  ];
+*/
   const RecipeCard = ({ title, description, cookTime, servings, difficulty, image }) => (
     <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
       <div className="p-4">
@@ -249,17 +309,17 @@ const Home = () => {
             </button>
             {expandedSections.cuisines && (
               <div className="flex p-3 overflow-auto flex-wrap gap-2">
-                {cuisines.map(ingredient => (
+                {cuisines.map(cuisines => (
                   <button
-                    key={ingredient}
-                    onClick={() => handleIngredientToggle(ingredient)}
-                    className={`px-3 py-1 rounded-full text-m font-medium transition duration-200 ${selectedIngredients.includes(ingredient)
+                    key={cuisines}
+                    onClick={() => handleCuisineChange(cuisines)}
+                    className={`px-3 py-1 rounded-full text-m font-medium transition duration-200 ${selectedCuisines.includes(cuisines)
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                   >
-                    {ingredient}
-                    {selectedIngredients.includes(ingredient) && (
+                    {cuisines}
+                    {selectedCuisines.includes(cuisines) && (
                       <X size={14} className="inline-block ml-1" />
                     )}
                   </button>
@@ -283,9 +343,10 @@ const Home = () => {
                   <label key={course} className="flex items-center space-x-2 cursor-pointer">
                     <input
                       type="radio"
+                      name="course" // Add a name attribute to group radio buttons
                       checked={selectedCourse === course}
                       onChange={() => handleCourseChange(course)}
-                      className="form-radio h-5 w-5 text-blue-500 focus:ring-blue-400"
+                      className={`form-radio h-5 w-5 text-blue-500 focus:ring-blue-400 `}
                     />
                     <span className="text-gray-700">{course}</span>
                   </label>
@@ -321,7 +382,7 @@ const Home = () => {
           </div>
 
           {/* Submit Button */}
-          <button className="w-1/2 bg-gray-800 text-white py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+          <button className="w-1/2 bg-gray-800 text-white py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={handleSubmit}>
             Find Recipes
           </button>
         </div>
@@ -329,17 +390,22 @@ const Home = () => {
         <div className="result w-2/3 h-screen bg-gray-200">
           <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">Top Recommendation</h1>
             <div className="grid grid-cols-3 gap-6">
-            {exampleRecipes.map((recipe, index) => (
-              <RecipeCard
-                key={index}
-                title={recipe.title}
-                description={recipe.description}
-                cookTime={recipe.cookTime}
-                servings={recipe.servings}
-                difficulty={recipe.difficulty}
-                image={recipe.image}
-              />
-            ))}
+            {searchResults.length === 0 ? (
+              <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">No Result Found</h1>
+            ) : (
+              searchResults.map((recipe, index) => (
+                <RecipeCard
+                  key={index}
+                  title={recipe.title}
+                  description={recipe.description}
+                  cookTime={recipe.cookTime}
+                  servings={recipe.servings}
+                  difficulty={recipe.difficulty}
+                  image={recipe.image}
+                />
+              ))
+            )}
+
           </div>
         </div>
       </div>

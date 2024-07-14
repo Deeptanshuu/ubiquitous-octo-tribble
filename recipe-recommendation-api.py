@@ -1,19 +1,22 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pandas as pd
 import numpy as np
+import heapq
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
+CORS(app)
 
 def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course, user_craving):
     """
     Calculates weighted similarity score based on TF-IDF and user preferences.
     """
     # Define weights for user preferences (adjust as needed)
-    cuisine_weight = 0.2
-    course_weight = 0.3
-    craving_weight = 0.5
+    cuisine_weight = 0.1
+    course_weight = 0.2
+    craving_weight = 0.7
 
     user_pref_similarity = 0
     if user_cuisine and user_cuisine == recipe['cuisine']:
@@ -22,7 +25,7 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course,
         user_pref_similarity += course_weight
     if user_craving and user_craving == recipe['craving']:
         user_pref_similarity += craving_weight
-    weighted_similarity = similarity * (1 - (cuisine_weight + course_weight + craving_weight)) + user_pref_similarity
+    weighted_similarity = similarity * ((cuisine_weight + course_weight + craving_weight)) + user_pref_similarity
     return weighted_similarity
 
 @app.route('/api/recommend', methods=['POST'])
@@ -57,9 +60,9 @@ def recommend():
         return jsonify("Warning: 'veg' column not found in data. Vegetarian filtering not possible.")
     
     
-    # Create TF-IDF vectorizer (consider adjusting binary parameter and stop words)
-    vectorizer = TfidfVectorizer(binary=True)
-
+    # Create TF-IDF vectorizer
+    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
+    
     # Fit vectorizer and transform recipe ingredients
     recipe_vectors = vectorizer.fit_transform(recipes_data["ingredients_text"])
 
@@ -76,19 +79,17 @@ def recommend():
     ]
 
     # Get top N recommendations
-    top_n = 15
-    top_n_indices = np.argsort(weighted_similarities)[-top_n:][::-1]
+    top_n = 6
+    top_n_indices = heapq.nlargest(top_n, range(len(weighted_similarities)), weighted_similarities.__getitem__)
     top_recipes = recipes_data.iloc[top_n_indices]
 
     # Prepare response
     recommendations = []
     for _, row in top_recipes.iterrows():
         recommendations.append({
-            'id': row['id'],
             'title': row['name'],
+            'id': row['id'],
             'description': row['description'],
-            #'course': row['course'],
-            #'cuisine': row['cuisine'],
             'difficulty': row['difficulty'],
             'cooking_time': row['cooking_time'],
             'servings': row['serving_size'],
@@ -96,6 +97,8 @@ def recommend():
             #'craving': row['craving'],
             #'ingredients': row['ingredients'],
             #'vegetarian': row['veg'],
+            #'course': row['course'],
+            #'cuisine': row['cuisine'],
             
         })
 
