@@ -93,7 +93,7 @@ def recommend():
             'difficulty': row['difficulty'],
             'cooking_time': row['cooking_time'],
             'servings': row['serving_size'],
-            'image': f"./src/assets/id-{row['id']}/id-{row['id']}-cover.jpeg",
+            'image': f"./id-{row['id']}/id-{row['id']}-cover.jpeg",
             #'craving': row['craving'],
             #'ingredients': row['ingredients'],
             'veg': row['veg'],
@@ -113,7 +113,7 @@ def recipe():
     recipes_data = pd.read_csv("recipe.csv")
     recipe = recipes_data[recipes_data['id'] == id].to_dict('records')[0]
     recipe_data = {
-        'image': f"./src/assets/id-{id}/id-{id}-cover (2).jpeg",
+        'image': f"./id-{id}/id-{id}-cover (2).jpeg",
         #'image-2': f"./src/assets/id-{id}/id-{id}-cover (2).jpeg"
     }
     recipe.update(recipe_data)
