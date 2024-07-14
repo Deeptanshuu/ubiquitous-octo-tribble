@@ -123,7 +123,8 @@ const Home = () => {
   const cleanedCourses = removeEmojis(selectedCourse);
   const cleanedCravings = selectedCravings.map(removeEmojis);
 
-  const HandleClick = () => {
+  const handleClick = (id) => {
+    window.open('/recpie?id=' + id);
  
   }
   const handleSubmit = async () => {
@@ -170,84 +171,45 @@ const Home = () => {
       servings: 4,
       difficulty: "Medium",
       image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-    },
-    {
-      title: "Chicken Stir Fry",
-      description: "Quick and easy Asian-inspired dish with vegetables",
-      cookTime: 20,
-      servings: 3,
-      difficulty: "Easy",
-      image: "./src/assets/id-3/id-3-cover.jpeg"
-    },
-    {
-      title: "Beef Wellington",
-      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
-      cookTime: 120,
-      servings: 6,
-      difficulty: "Hard",
-      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-    },
-    {
-      title: "Beef Wellington",
-      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
-      cookTime: 120,
-      servings: 6,
-      difficulty: "Hard",
-      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-    },
-    {
-      title: "Beef Wellington",
-      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
-      cookTime: 120,
-      servings: 6,
-      difficulty: "Hard",
-      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-    },
-    {
-      title: "Beef Wellington",
-      description: "Luxurious dish of beef tenderloin wrapped in puff pastry",
-      cookTime: 120,
-      servings: 6,
-      difficulty: "Hard",
-      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
     }
   ];
 */
-  const RecipeCard = ({ id,title, description, cookTime, servings, difficulty, image }) => (
-    <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
-      <div className="p-4">
-        <img
-          src={image}
-          alt="Recipe"
-          className="w-full h-40 object-cover mb-4"
-        />
-      </div>
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-2">{title}</h2>
-        <p className="text-gray-600 mb-4">{description}</p>
-      </div>
-      <div className="px-4 flex-grow">
-        <div className="flex items-center mb-2">
-          <Clock className="mr-2 text-gray-500" size={24} />
-          <span className="text-sm text-gray-700">{cookTime}</span>
+  function RecipeCard({ id, title, description, cookTime, servings, difficulty, image }) {
+    return (
+      <div className="w-full h-full m-auto bg-white rounded-lg shadow-md  flex flex-col">
+        <div className="p-4">
+          <img
+            src={image}
+            alt="Recipe"
+            className="w-full h-40 object-cover mb-4" />
         </div>
-        <div className="flex items-center mb-2">
-          <Utensils className="mr-2 text-gray-500" size={24} />
-          <span className="text-sm text-gray-700">{servings}</span>
+        <div className="p-4">
+          <h2 className="text-xl font-semibold mb-2">{title}</h2>
+          <p className="text-gray-600 mb-4">{description}</p>
         </div>
-      </div>
-      <div className="p-4 flex justify-between items-center border-t border-gray-300">
-        <span className={`px-2 py-1 text-s font-semibold rounded-full 
+        <div className="px-4 flex-grow">
+          <div className="flex items-center mb-2">
+            <Clock className="mr-2 text-gray-500" size={24} />
+            <span className="text-sm text-gray-700">{cookTime}</span>
+          </div>
+          <div className="flex items-center mb-2">
+            <Utensils className="mr-2 text-gray-500" size={24} />
+            <span className="text-sm text-gray-700">{servings}</span>
+          </div>
+        </div>
+        <div className="p-4 flex justify-between items-center border-t border-gray-300">
+          <span className={`px-2 py-1 text-s font-semibold rounded-full 
           ${difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
-            difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-              'bg-red-100 text-red-800'
-          }`}>
-          {difficulty}
-        </span>
-        <button type="button" class="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={() => navigate(`/recipe/${id}`)}>See Recipe</button>
+              difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'}`}>
+            {difficulty}
+          </span>
+          <button type="button" class="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            onClick={() => handleClick(id)}>See Recipe</button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
 
   return (
