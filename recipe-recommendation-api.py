@@ -31,38 +31,43 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course,
 @app.route('/api/recommend', methods=['POST'])
 def recommend():
     # Read recipe data
-    global recipes_data
     recipes_data = pd.read_csv("recipe.csv")
 
-    # Optional: Clean recipe descriptions (replace with your cleaning steps)
-    # Consider stemming or lemmatization here
+    # Strip spaces from column names
+    recipes_data.columns = recipes_data.columns.str.strip()
 
-    # Extract and join ingredients into text
+    # Print the cleaned columns to verify
+    #print("Columns:", recipes_data.columns)
+
+    # Check if 'ingredients' column exists
+    if 'ingredients' not in recipes_data.columns:
+        return jsonify("Error: 'ingredients' column not found in the data.")
+
+    # Process ingredients column
     recipes_data["ingredients_list"] = recipes_data["ingredients"].apply(lambda x: x.strip().split(","))
     recipes_data["ingredients_text"] = recipes_data["ingredients_list"].apply(lambda x: " ".join(x))
 
     # Get user input from request
     data = request.json
     user_ingredients = data.get('ingredients', [])
-    user_cuisine = data.get('cuisine',[])
+    user_cuisine = data.get('cuisine', [])
     user_course = data.get('course')
-    user_craving = data.get('craving',[])
+    user_craving = data.get('craving', [])
     user_veg = data.get('veg', False)
-    
+
     user_ingredients_text = " ".join(user_ingredients)
-    
-    # Filter vegetarian recipes
+
+    # Filter vegetarian recipes if the column exists
     if 'veg' in recipes_data.columns:
         if user_veg:
             recipes_data = recipes_data[recipes_data['veg'] == True]
         print(f"Filtered to {len(recipes_data)} {'vegetarian' if user_veg else 'all'} recipes.")
     else:
         return jsonify("Warning: 'veg' column not found in data. Vegetarian filtering not possible.")
-    
-    
+
     # Create TF-IDF vectorizer
-    vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
-    
+    vectorizer = TfidfVectorizer( ngram_range=(1, 2))
+
     # Fit vectorizer and transform recipe ingredients
     recipe_vectors = vectorizer.fit_transform(recipes_data["ingredients_text"])
 
@@ -111,6 +116,8 @@ def recipe():
     id = int(id)
     global recipes_data
     recipes_data = pd.read_csv("recipe.csv")
+    # Strip spaces from column names
+    recipes_data.columns = recipes_data.columns.str.strip()
     recipe = recipes_data[recipes_data['id'] == id].to_dict('records')[0]
     recipe_data = {
         'image': f"./id-{id}/id-{id}-cover (2).jpeg",

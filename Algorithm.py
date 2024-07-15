@@ -24,7 +24,7 @@ user_ingredients_text = " ".join(user_ingredients)
 user_cuisine = None  # Replace with user input (optional)
 user_course = "Main Course"  # Replace with user input (optional)
 user_craving = "spicy" 
-user_veg = False  # Replace with user input (optional)
+user_veg = True  # Replace with user input (optional)
 
 # Filter vegetarian recipes
 if 'veg' in recipes_data.columns:

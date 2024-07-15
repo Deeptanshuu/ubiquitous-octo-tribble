@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, ChevronDown, ChevronUp, Search } from 'lucide-react';
-import { Clock, Utensils } from 'lucide-react'
+import { Clock, Utensils } from 'lucide-react';
+import VegToggle from './VegToggle';
 
 const Home = () => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
@@ -15,6 +16,12 @@ const Home = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [isVeg, setIsVeg] = useState(false);
+
+  const handleVegToggle = (newState) => {
+    setIsVeg(newState);
+  };
+  
 
   function removeEmojis(str) {
     return str.replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
@@ -143,7 +150,7 @@ const Home = () => {
       craving: cleanedCravings,
       cuisine: cleanedCuisine,
       course: cleanedCourse,
-      veg: false
+      veg: isVeg
     };
 
     try {
@@ -217,8 +224,13 @@ const Home = () => {
     <>
       <div className="home flex flex-row bg-white">
         <div className="search-menu w-1/3 border-r-2 border-gray-600 items-center p-5 bg-white ">
-          <h2 className="text-3xl p-3 font-bold mb-6 text-gray-800">What's for Dinner ?</h2>
-
+          
+          <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800">What's for Dinner ?</h2>
+          <div className="flex flex-row justify-start p-2">
+              <p className='text-m font-semibold mx-2 mb-2 text-green-500'>Veg Mode</p>
+              <VegToggle initialState={isVeg} onChange={handleVegToggle} />
+          </div>
+          
           {/* Ingredients Section */}
           <div className="mb-8">
             <button
@@ -345,6 +357,7 @@ const Home = () => {
           </div>
 
           {/* Submit Button */}
+          
           <button className="w-1/2 bg-gray-800 text-white py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={handleSubmit}>
             Find Recipes
           </button>
