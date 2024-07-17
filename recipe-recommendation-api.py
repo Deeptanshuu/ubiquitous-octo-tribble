@@ -14,9 +14,9 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course,
     Calculates weighted similarity score based on TF-IDF and user preferences.
     """
     # Define weights for user preferences (adjust as needed)
-    cuisine_weight = 0.1
-    course_weight = 0.2
-    craving_weight = 0.7
+    cuisine_weight = 0.0
+    course_weight = 0.9
+    craving_weight = 0.1
 
     user_pref_similarity = 0
     if user_cuisine and user_cuisine == recipe['cuisine']:
@@ -84,7 +84,7 @@ def recommend():
     ]
 
     # Get top N recommendations
-    top_n = 6
+    top_n = 12
     top_n_indices = heapq.nlargest(top_n, range(len(weighted_similarities)), weighted_similarities.__getitem__)
     top_recipes = recipes_data.iloc[top_n_indices]
 

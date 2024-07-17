@@ -183,8 +183,8 @@ const Home = () => {
 */
   function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
     return (
-      <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-500 rounded-lg shadow-md  flex flex-col">
-        <div className="p-4">
+      <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-600 rounded-lg shadow-2xl flex flex-col">
+        <div className="p-3 py-4">
           <img
             src={image}
             alt="Recipe"
@@ -205,7 +205,7 @@ const Home = () => {
             <span className="text-sm text-gray-700">{servings}</span>
           </div>
         </div>
-        <div className="p-4 flex justify-between items-center border-t border-gray-300">
+        <div className="p-4 flex justify-between items-center border-t-2 border-gray-400">
           <span className={`px-2 py-1 text-s font-semibold rounded-full 
           ${difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
               difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -223,9 +223,10 @@ const Home = () => {
   return (
     <>
       <div className="home flex flex-row bg-white">
-        <div className="search-menu w-1/3 border-r-2 border-gray-600 items-center p-5 bg-white ">
+        <div className="search-menu w-1/3 min-h-screen border-r-2 border-gray-600 items-center p-5 bg-white ">
           
           <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800">What's for Dinner ?</h2>
+
           <div className="flex flex-row justify-start p-2">
               <p className='text-m font-semibold mx-2 mb-2 text-green-500'>Veg Mode</p>
               <VegToggle initialState={isVeg} onChange={handleVegToggle} />
@@ -253,21 +254,29 @@ const Home = () => {
                   <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
                 </div>
                 <div className="flex p-5 max-h-80 overflow-auto flex-wrap gap-2">
-                  {filteredIngredients.map(ingredient => (
-                    <button
-                      key={ingredient}
-                      onClick={() => handleIngredientToggle(ingredient)}
-                      className={`px-3 py-1 border-2 border-slate-500 rounded-full text-m font-medium transition duration-200 ${selectedIngredients.includes(ingredient)
+                  {filteredIngredients
+                    .sort((a, b) => {
+                      const aSelected = selectedIngredients.includes(a);
+                      const bSelected = selectedIngredients.includes(b);
+                      if (aSelected && !bSelected) return -1;
+                      if (!aSelected && bSelected) return 1;
+                      return 0;
+                    })
+                    .map(ingredient => (
+                      <button
+                        key={ingredient}
+                        onClick={() => handleIngredientToggle(ingredient)}
+                        className={`px-3 py-1 border-2 border-slate-500 rounded-full text-m font-medium transition duration-200 ${selectedIngredients.includes(ingredient)
                           ? 'bg-stone-700 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        }`}
-                    >
-                      {ingredient}
-                      {selectedIngredients.includes(ingredient) && (
-                        <X size={14} className="inline-block ml-1" />
-                      )}
-                    </button>
-                  ))}
+                          }`}
+                      >
+                        {ingredient}
+                        {selectedIngredients.includes(ingredient) && (
+                          <X size={14} className="inline-block ml-1" />
+                        )}
+                      </button>
+                    ))}
                 </div>
               </div>
             )}
@@ -363,11 +372,11 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="result w-2/3 h-screen p-5 bg-white-200">
-          <h1 className="text-3xl p-3 t-0 font-bold mb-6 text-center">Top Recommendation</h1>
+        <div className="result w-2/3 overflow-x-scroll p-5 bg-white-200">
+          <h1 className="text-3xl font-bold mb-6">Our Top Results</h1>
             <div className="grid grid-cols-3 gap-6">
             {searchResults.length === 0 ? (
-              <h1 className="text-3xl w-full p-3 t-0 font-bold mb-6 text-center"> 👈 Use the filters to get started</h1>
+              <h1 className="text-4xl w-full p-3 py-64 font-bold mb-6 text-center"> 👈 Use the filters to get started</h1>
             ) : (
               searchResults.map((recipe) => (
                 <RecipeCard
