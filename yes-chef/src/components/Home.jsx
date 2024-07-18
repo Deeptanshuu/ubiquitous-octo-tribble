@@ -184,11 +184,11 @@ const Home = () => {
   function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
     return (
       <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-600 rounded-lg shadow-2xl flex flex-col">
-        <div className="p-3 py-4">
+        <div className="">
           <img
             src={image}
             alt="Recipe"
-            className="w-full h-40 object-cover mb-4" />
+            className="w-full h-[250px] object-cover mb-5" />
         </div>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-2">{title}</h2>

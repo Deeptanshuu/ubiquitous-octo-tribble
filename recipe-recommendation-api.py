@@ -14,19 +14,41 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course,
     Calculates weighted similarity score based on TF-IDF and user preferences.
     """
     # Define weights for user preferences (adjust as needed)
-    cuisine_weight = 0.0
-    course_weight = 0.9
-    craving_weight = 0.1
+    cuisine_weight = 15
+    course_weight = 20
+    craving_weight = 15
+
+    # Normalize user inputs
+    user_cuisine_normalized = [c.strip().lower() for c in user_cuisine] if user_cuisine else []
+    user_course_normalized = user_course.strip().lower() if user_course else ""
+    user_craving_normalized = [c.strip().lower() for c in user_craving] if user_craving else []
+
+    # Normalize recipe fields
+    recipe_cuisine_normalized = [c.strip().lower() for c in recipe['cuisine'].split(',')] if recipe['cuisine'] else []
+    recipe_course_normalized = recipe['course'].strip().lower() if recipe['course'] else ""
+    recipe_craving_normalized = [c.strip().lower() for c in recipe['craving'].split(',')] if recipe['craving'] else []
+
+    # Debugging outputs
+    #print(f"User cuisine: {user_cuisine_normalized}, Recipe cuisine: {recipe_cuisine_normalized}")
+    #print(f"User course: {user_course_normalized}, Recipe course: {recipe_course_normalized}")
+    #print(f"User craving: {user_craving_normalized}, Recipe craving: {recipe_craving_normalized}")
 
     user_pref_similarity = 0
-    if user_cuisine and user_cuisine == recipe['cuisine']:
+    if user_cuisine_normalized and any(c in recipe_cuisine_normalized for c in user_cuisine_normalized):
         user_pref_similarity += cuisine_weight
-    if user_course and user_course == recipe['course']:
+        print(f"Cuisine match: +{cuisine_weight}")
+    if user_course_normalized and user_course_normalized == recipe_course_normalized:
         user_pref_similarity += course_weight
-    if user_craving and user_craving == recipe['craving']:
+        print(f"Course match: +{course_weight}")
+    if user_craving_normalized and any(c in recipe_craving_normalized for c in user_craving_normalized):
         user_pref_similarity += craving_weight
-    weighted_similarity = similarity * ((cuisine_weight + course_weight + craving_weight)) + user_pref_similarity
+        print(f"Craving match: +{craving_weight}")
+
+    weighted_similarity = similarity * (cuisine_weight + course_weight + craving_weight) + user_pref_similarity
+    #print(f"Weighted similarity: {weighted_similarity}")
     return weighted_similarity
+
+
 
 @app.route('/api/recommend', methods=['POST'])
 def recommend():
