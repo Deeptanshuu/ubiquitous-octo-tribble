@@ -1,9 +1,6 @@
 import Home from './components/Home'
 import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
 import Recpie from './components/Recpie';
-import { defineConfig } from 'vite';
-
-// https://vitejs.dev/config/
 
 function App() {
   
