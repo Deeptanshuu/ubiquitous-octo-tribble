@@ -154,7 +154,7 @@ const Home = () => {
     };
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/recommend`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/recommend`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -373,29 +373,32 @@ const Home = () => {
         </div>
 
         <div className="result w-2/3 overflow-x-scroll p-5 bg-white-200">
-          <h1 className="text-3xl font-bold mb-6">Our Top Results</h1>
-            <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {searchResults.length === 0 ? (
-              <h1 className="text-4xl w-full p-3 py-64 font-bold mb-6 text-center"> 👈 Use the filters to get started</h1>
+              <h1 className="text-4xl w-full px-3 py-64 font-bold text-center mb-6">
+                👈 Use the filters to get started
+              </h1>
             ) : (
-              searchResults.map((recipe) => (
-                <RecipeCard
-                  id={recipe.id}
-                  title={recipe.title}
-                  description={recipe.description}
-                  cookTime={recipe.cooking_time}
-                  servings={recipe.servings}
-                  difficulty={recipe.difficulty}
-                  image={recipe.image}
-                  veg= {recipe.veg}
-                />
-              ))
+              <>
+                <h1 className="text-4xl font-bold mb-6 col-span-3">Our Top Results</h1>
+                {searchResults.map((recipe) => (
+                  <RecipeCard
+                    key={recipe.id}
+                    id={recipe.id}
+                    title={recipe.title}
+                    description={recipe.description}
+                    cookTime={recipe.cooking_time}
+                    servings={recipe.servings}
+                    difficulty={recipe.difficulty}
+                    image={recipe.image}
+                    veg={recipe.veg}
+                  />
+                ))}
+              </>
             )}
-
           </div>
         </div>
       </div>
-
     </>
   );
 };

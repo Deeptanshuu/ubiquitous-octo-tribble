@@ -84,7 +84,7 @@ def recommend():
     ]
 
     # Get top N recommendations
-    top_n = 12
+    top_n = 9
     top_n_indices = heapq.nlargest(top_n, range(len(weighted_similarities)), weighted_similarities.__getitem__)
     top_recipes = recipes_data.iloc[top_n_indices]
 
