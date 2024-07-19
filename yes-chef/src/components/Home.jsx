@@ -170,6 +170,16 @@ const Home = () => {
     }
   };
 
+  const clearAllFilters = () => {
+    setSelectedIngredients([]);
+    setSelectedCuisines([]);
+    setSelectedCourse('');
+    setSelectedCravings([]);
+    setSearchTerm('');
+    setIsVeg(false);
+    setSearchResults([]);
+  };
+
 /*  const exampleRecipes = [
     {
       title: "Spaghetti Carbonara",
@@ -368,14 +378,23 @@ const Home = () => {
           </div>
 
           {/* Submit Button */}
-          
+          <div className='flex justify-between'>
           <button className="w-1/2 bg-gray-800 text-white py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={handleSubmit}>
             Find Recipes
           </button>
+          <button 
+              className="w-1/3 bg-red-300 text-red-800 py-3 px-4 rounded-full text-lg font-semibold hover:bg-red-500 transition duration-200 border
+              border-red-800 focus:ring-red-400"
+              onClick={clearAllFilters}
+            >
+              Clear Filters ❌
+          </button>
+
+          </div>
         </div>
 
         <div className="result w-2/3 overflow-x-scroll p-5 bg-white-200">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-7">
             {searchResults.length === 0 ? (
               <h1 className="text-4xl w-full px-3 py-64 font-bold text-center mb-6">
                 👈 Use the filters to get started
