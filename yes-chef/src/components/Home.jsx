@@ -183,12 +183,12 @@ const Home = () => {
 */
   function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
     return (
-      <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-600 rounded-lg shadow-2xl flex flex-col">
+      <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-600 shadow-xl shadow-stone-400 rounded-lg flex flex-col">
         <div className="">
           <img
             src={image}
             alt="Recipe"
-            className="w-full h-[250px] object-cover mb-5" />
+            className="w-full h-[250px] object-cover rounded-r-lg rounded-l-lg rounded-b-none border-b-2 border-slate-800 mb-5" />
         </div>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-2">{title}</h2>
@@ -223,13 +223,15 @@ const Home = () => {
   return (
     <>
       <div className="home flex flex-row bg-white">
-        <div className="search-menu w-1/3 min-h-screen border-r-2 border-gray-600 items-center p-5 bg-white ">
+        <div className="search-menu w-1/3 min-h-screen border-r-2 border-gray-600 shadow-xl shadow-gray-600 flex flex-col p-5 bg-white ">
           
           <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800">What's for Dinner ?</h2>
 
-          <div className="flex flex-row justify-start p-2">
-              <p className='text-m font-semibold mx-2 mb-2 text-green-500'>Veg Mode</p>
-              <VegToggle initialState={isVeg} onChange={handleVegToggle} />
+          <div className="flex flex-row justify-start p-3">
+              <p className='text-base font-semibold mx-2 mb-2 px-3 py-1 rounded-full bg-green-300 text-green-700'>Veg Mode</p>
+              <div className='p-1'>
+                <VegToggle initialState={isVeg} onChange={handleVegToggle}/>
+              </div>
           </div>
           
           {/* Ingredients Section */}
@@ -380,7 +382,7 @@ const Home = () => {
               </h1>
             ) : (
               <>
-                <h1 className="text-4xl font-bold mb-6 col-span-3">Our Top Results</h1>
+                <h1 className="text-4xl font-bold mb-6 border-b border-slate-800 pb-4 col-span-3">Our Top Results 👇</h1>
                 {searchResults.map((recipe) => (
                   <RecipeCard
                     key={recipe.id}
