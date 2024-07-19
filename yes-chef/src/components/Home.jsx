@@ -38,7 +38,7 @@ const Home = () => {
   }
 
   const ingredients = [
-    'flour 🌾', 'sugar 🍬', 'eggs 🥚', 'chocolate chips 🍫', 'butter 🧈', 'vanilla extract 🌼',
+    'flour 🌾', 'sugar 🍬', 'eggs 🥚', 'chocolate 🍫', 'butter 🧈', 'vanilla extract 🌼',
     'rice noodles 🍜', 'tofu 🍶', 'bean sprouts 🌱', 'peanuts 🥜', 'lime 🍋', 'fish sauce 🐟',
     'tamarind paste 🌰', 'garlic 🧄', 'shallots 🧅', 'chicken 🍗', 'onions 🧅', 'tomatoes 🍅',
     'coconut milk 🥥', 'curry paste 🍛', 'ginger 🍂', 'cilantro 🌿', 'cocoa powder 🍫', 'milk 🥛',
