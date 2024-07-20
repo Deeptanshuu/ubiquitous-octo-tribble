@@ -194,12 +194,12 @@ const Home = () => {
 */
   function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
     return (
-      <div className="w-full h-full m-auto bg-neutral-200 border-2 border-slate-600 shadow-xl shadow-stone-400 rounded-lg flex flex-col">
+      <div className="w-full h-full m-auto bg-white border-2 border-slate-600 shadow-xl shadow-stone-400 rounded-lg flex flex-col">
         <div className="">
           <img
             src={image}
             alt="Recipe"
-            className="w-full h-[250px] object-cover rounded-r-lg rounded-l-lg rounded-b-none border-b-2 border-slate-800 mb-5" />
+            className="w-full h-[250px] object-cover  rounded-tr-lg rounded-tl-lg rounded-b-none border-slate-800 mb-5" />
         </div>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-2">{title}</h2>
