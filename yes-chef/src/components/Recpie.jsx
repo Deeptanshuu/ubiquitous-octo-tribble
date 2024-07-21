@@ -60,7 +60,7 @@ const Recipe = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-slate-100 shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg">
       <h1 className="text-3xl font-bold mb-4 text-dark-600">{recipe.name}</h1>
       <p className="text-gray-600 mb-6">{recipe.description}</p>
       {recipe.veg ? <p className="px-3 py-1 w-20 my-2 text-center rounded-full font-semibold bg-green-300 text-green-800">Veg</p> : <p className="px-3 py-1 w-24 my-2 text-center rounded-full font-semibold bg-red-300 text-red-800">Non-Veg</p>}
