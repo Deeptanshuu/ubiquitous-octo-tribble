@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { X, ChevronDown, ChevronUp, Search } from 'lucide-react';
 import { Clock, Utensils } from 'lucide-react';
 import VegToggle from './VegToggle';
+import Loading from './Loading';
 
 const Home = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
@@ -155,6 +158,7 @@ const Home = () => {
     };
 
     try {
+      setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/recommend`, {
         method: 'POST',
         headers: {
@@ -164,7 +168,12 @@ const Home = () => {
       });
 
       const result = await response.json();
-      setSearchResults(result);
+      
+      setTimeout(() => {
+              setSearchResults(result);
+              setLoading(false);
+      }, 1000);
+
       console.log('Success:', result);
     } catch (error) {
       console.error('Error:', error);
@@ -396,30 +405,41 @@ const Home = () => {
 
         <div className="result w-2/3 overflow-x-scroll p-5 bg-white-200">
           <div className="grid grid-cols-3 gap-7">
-            {searchResults.length === 0 ? (
+            {searchResults.length === 0 && loading === false ? (
               <h1 className="text-4xl w-full px-3 py-64 font-bold text-center mb-6">
                 👈 Use the filters to get started
               </h1>
             ) : (
               <>
-                <h1 className="text-4xl font-bold mb-6 border-b border-slate-800 pb-4 col-span-3">Our Top Results 👇</h1>
-                {searchResults.map((recipe) => (
-                  <RecipeCard
-                    key={recipe.id}
-                    id={recipe.id}
-                    title={recipe.title}
-                    description={recipe.description}
-                    cookTime={recipe.cooking_time}
-                    servings={recipe.servings}
-                    difficulty={recipe.difficulty}
-                    image={recipe.image}
-                    veg={recipe.veg}
-                  />
-                ))}
+                {loading === true ? (
+                  <div className="flex flex-row items-center justify-center w-[80em] h-screen">
+                    <Loading/>
+                  </div>
+                ) : (
+                  <>
+                    <h1 className="text-4xl font-bold mb-6 border-b border-slate-800 pb-4 col-span-3">
+                      Our Top Results 👇
+                    </h1>
+                    {searchResults.map((recipe) => (
+                      <RecipeCard
+                        key={recipe.id}
+                        id={recipe.id}
+                        title={recipe.title}
+                        description={recipe.description}
+                        cookTime={recipe.cooking_time}
+                        servings={recipe.servings}
+                        difficulty={recipe.difficulty}
+                        image={recipe.image}
+                        veg={recipe.veg}
+                      />
+                    ))}
+                  </>
+                )}
               </>
             )}
           </div>
         </div>
+
       </div>
     </>
   );

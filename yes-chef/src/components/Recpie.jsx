@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Clock, Users, ChefHat, Utensils } from 'lucide-react';
+import Loading from './Loading';
 
 const Recipe = () => {
   const location = useLocation();
@@ -32,15 +33,19 @@ const Recipe = () => {
       }
 
       const data = await response.json();
-      setRecipe(data);
-      setLoading(false);
+
+      setTimeout(() => {
+              setRecipe(data);
+              setLoading(false);
+      }, 1000);
+
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
   };
 
-  if (loading) return <div className="text-center mt-8">Loading...</div>;
+  if (loading) return <div className="text-center mt-96"><Loading /></div>;
   if (error) return <div className="text-center mt-8 text-red-500">Error: {error}</div>;
   if (!recipe) return <div className="text-center mt-8">No recipe data available</div>;
   const formatRecipeText = (text) => {
