@@ -37,7 +37,9 @@ const Recipe = () => {
       setTimeout(() => {
               setRecipe(data);
               setLoading(false);
-      }, 1000);
+      }, 
+      1000
+      );
 
     } catch (err) {
       setError(err.message);
