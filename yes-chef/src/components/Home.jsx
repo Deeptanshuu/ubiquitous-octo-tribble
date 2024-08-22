@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/prop-types */
+import  { useState } from 'react';
 import { X, ChevronDown, ChevronUp, Search } from 'lucide-react';
 import { Clock, Utensils } from 'lucide-react';
 import VegToggle from './VegToggle';
@@ -6,7 +8,7 @@ import Loading from './Loading';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  //const [error, setError] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
@@ -20,6 +22,7 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isVeg, setIsVeg] = useState(false);
+  const placeholderImage = '/placeholder.png';
 
   const handleVegToggle = (newState) => {
     setIsVeg(newState);
@@ -129,10 +132,10 @@ const Home = () => {
     ingredient.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const cleanedIngredients = selectedIngredients.map(removeEmojis);
+  //const cleanedIngredients = selectedIngredients.map(removeEmojis);
   const cleanedCuisines = selectedCuisines.map(removeEmojis);
   const cleanedCourses = removeEmojis(selectedCourse);
-  const cleanedCravings = selectedCravings.map(removeEmojis);
+  //const cleanedCravings = selectedCravings.map(removeEmojis);
 
   const handleClick = (id) => {
     window.open('/recpie?id=' + id);
@@ -172,7 +175,7 @@ const Home = () => {
       setTimeout(() => {
               setSearchResults(result);
               setLoading(false);
-      }, 1000);
+      }, 100);
 
       console.log('Success:', result);
     } catch (error) {
@@ -206,8 +209,8 @@ const Home = () => {
       <div className="w-full h-full m-auto bg-white border-2 border-slate-600 shadow-xl shadow-stone-400 rounded-lg flex flex-col">
         <div className="">
           <img
-            src={image}
-            alt="Recipe"
+            src={image || placeholderImage}
+            alt='Image of the dish'
             className="w-full h-[250px] object-cover  rounded-tr-lg rounded-tl-lg rounded-b-none border-slate-800 mb-5" />
         </div>
         <div className="p-4">
@@ -232,7 +235,7 @@ const Home = () => {
                 'bg-red-100 text-red-800'}`}>
             {difficulty}
           </span>
-          <button type="button" class="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+          <button type="button" className="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
             onClick={() => handleClick(id)}>See Recipe</button>
         </div>
       </div>
@@ -244,8 +247,8 @@ const Home = () => {
     <>
       <div className="home flex flex-row bg-white">
         <div className="search-menu w-1/3 min-h-screen border-r-2 border-gray-600 shadow-xl shadow-gray-600 flex flex-col p-5 bg-white ">
-          
-          <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800">What's for Dinner ?</h2>
+
+          <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800" >What's for Dinner ?</h2>
 
           <div className="flex flex-row justify-start p-3">
               <p className='text-base font-semibold mx-2 mb-2 px-3 py-1 rounded-full bg-green-300 text-green-700'>Veg Mode</p>
