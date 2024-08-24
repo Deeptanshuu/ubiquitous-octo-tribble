@@ -91,8 +91,8 @@ def recommend_recipes():
         for idx, sim in enumerate(similarities)
     ]
 
-    # Get top 5 recommendations
-    top_n_indices = np.argsort(weighted_similarities)[-6:][::-1]
+    # Get top 12 recommendations
+    top_n_indices = np.argsort(weighted_similarities)[-12:][::-1]
     top_recipes = filtered_recipes.iloc[top_n_indices]
 
     recommendations = []
