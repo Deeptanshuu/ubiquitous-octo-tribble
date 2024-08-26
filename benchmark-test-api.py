@@ -3,9 +3,9 @@ import json
 
 url = "http://localhost:5000/api/recommend"
 data = {
-    "ingredients": ["chicken", "rice", "onion"],
-    "cuisine": "Italian",
-    "course": "Main Course",
+    "ingredients": ["chicken", "rice", "onion", "red Chili"],
+    "cuisine": "Indian",
+    "course": None,
     "veg": False
 }
 

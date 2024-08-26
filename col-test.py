@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the CSV file and remove any extra spaces from column names
-df = pd.read_csv('7k-dataset-translated.csv')
+df = pd.read_csv('7k-dataset.csv')
 df.columns = df.columns.str.strip()
 
 # Check if the 'ingredients_name' column exists

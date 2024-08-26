@@ -113,5 +113,52 @@ def recommend_recipes():
 
     return jsonify(recommendations)
 
+@app.route('/api/recipe', methods=['POST'])
+def recipe():
+    data = request.json
+    name = data.get('name', '').strip().lower()  # Normalize input
+
+    if not name:
+        return jsonify({"error": "Recipe name is required"}), 400
+
+    recipes_data = pd.read_csv("7k-dataset.csv")
+
+    # Strip spaces from column names
+    recipes_data.columns = recipes_data.columns.str.strip()
+
+    # Normalize recipe names in the dataset for comparison
+    recipes_data['name'] = recipes_data['name'].str.strip().str.lower()
+
+    # Find the recipe
+    recipe_list = recipes_data[recipes_data['name'] == name].to_dict('records')
+
+    if not recipe_list:
+        return jsonify({"error": "Recipe not found"}), 404
+
+    recipe = recipe_list[0]
+
+    # Calculate difficulty and servings
+    difficulty = calculate_difficulty(recipe.get('prep_time'), recipe.get('cook_time'))
+    servings = calculate_servings(recipe.get('prep_time'), recipe.get('cook_time'))
+
+    # Prepare the response
+    response = {
+        'name': recipe.get('name').title(),  # Convert back to title case for response
+        'description': recipe.get('description'),
+        'veg': recipe.get('diet').strip().lower() == 'vegetarian',  # Handle potential extra spaces
+        'image': recipe.get('image_url'),
+        'cooking_time': f"{recipe.get('prep_time', 0)} + {recipe.get('cook_time', 0)} mins",
+        'serving_size': servings,
+        'difficulty': difficulty,
+        'course': recipe.get('course'),
+        'cooking_ingredients': recipe.get('ingredients_name'),
+        'cooking_instruction': recipe.get('instructions')
+    }
+
+    return jsonify(response)
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

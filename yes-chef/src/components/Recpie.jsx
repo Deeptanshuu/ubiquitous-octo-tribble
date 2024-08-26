@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Clock, Users, ChefHat, Utensils } from 'lucide-react';
 import Loading from './Loading';
 
 const Recipe = () => {
   const location = useLocation();
-  const [recipeId, setRecipeId] = useState(null);
+  const [RecipeId, setRecipeId] = useState(null);
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const id = params.get('id');
+    const id = params.get('name');
+    console.log(id);
     if (id) {
       setRecipeId(id);
       fetchRecipe(id);
@@ -21,14 +22,15 @@ const Recipe = () => {
 
   const fetchRecipe = async (id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/recpie`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/recipe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id })
+        body: JSON.stringify({ name: id })
       });
       if (!response.ok) {
+        console.log(response);
         throw new Error('Failed to fetch recipe');
       }
 
@@ -38,18 +40,19 @@ const Recipe = () => {
               setRecipe(data);
               setLoading(false);
       }, 
-      1000
+      100
       );
-
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
   };
 
+
   if (loading) return <div className="text-center mt-96"><Loading /></div>;
   if (error) return <div className="text-center mt-8 text-red-500">Error: {error}</div>;
   if (!recipe) return <div className="text-center mt-8">No recipe data available</div>;
+
   const formatRecipeText = (text) => {
     if (!text) return null;
     

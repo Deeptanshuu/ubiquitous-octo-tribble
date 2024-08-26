@@ -137,8 +137,8 @@ const Home = () => {
   const cleanedCourses = removeEmojis(selectedCourse);
   //const cleanedCravings = selectedCravings.map(removeEmojis);
 
-  const handleClick = (id) => {
-    window.open('/recpie?id=' + id);
+  const handleClick = (name) => {
+    window.open('/recpie?name=' + name);
  
   }
   const handleSubmit = async () => {
@@ -204,13 +204,13 @@ const Home = () => {
     }
   ];
 */
-  function RecipeCard({ id, title, description, cookTime, servings, difficulty, image, veg }) {
+  function RecipeCard({ title, description, cookTime, servings, difficulty, image, veg }) {
     return (
       <div className="w-full h-full m-auto bg-white border-2 border-slate-600 shadow-xl shadow-stone-400 rounded-lg flex flex-col">
         <div className="">
           <img
             src={image || placeholderImage}
-            alt='Image of the dish'
+            alt={placeholderImage}
             className="w-full h-[250px] object-cover  rounded-tr-lg rounded-tl-lg rounded-b-none border-slate-800 mb-5" />
         </div>
         <div className="p-4">
@@ -236,7 +236,7 @@ const Home = () => {
             {difficulty}
           </span>
           <button type="button" className="w-1/2 bg-gray-800 text-white text-s py-3 px-4 rounded-full text-lg font-semibold hover:bg-gray-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-            onClick={() => handleClick(id)}>See Recipe</button>
+            onClick={() => handleClick(title)}>See Recipe</button>
         </div>
       </div>
     );
