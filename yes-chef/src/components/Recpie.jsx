@@ -14,6 +14,7 @@ const Recipe = () => {
     const params = new URLSearchParams(location.search);
     const id = params.get('name');
     console.log(id);
+    console.log(RecipeId);
     if (id) {
       setRecipeId(id);
       fetchRecipe(id);

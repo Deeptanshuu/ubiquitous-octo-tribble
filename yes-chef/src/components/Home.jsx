@@ -245,8 +245,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="home flex flex-row bg-white">
-        <div className="search-menu w-1/3 min-h-screen border-r-2 border-gray-600 shadow-xl shadow-gray-600 flex flex-col p-5 bg-white ">
+      <div className="home flex md:flex-row flex-col bg-white">
+        <div className="search-menu w-full min-h-screen border-r-2 border-gray-600 shadow-xl shadow-gray-600 flex flex-col p-5 bg-white md:w-1/3 ">
 
           <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800" >What's for Dinner ?</h2>
 
@@ -406,8 +406,8 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="result w-2/3 overflow-x-scroll p-5 bg-white-200">
-          <div className="grid grid-cols-3 gap-7">
+        <div className="result md:w-2/3 w-full overflow-x-scroll p-5 bg-white-200">
+          <div className="md:grid md:grid-cols-3 md:gap-7 flex flex-col gap-10">
             {searchResults.length === 0 && loading === false ? (
               <h1 className="text-4xl w-full px-3 py-64 font-bold text-center mb-6">
                 👈 Use the filters to get started
