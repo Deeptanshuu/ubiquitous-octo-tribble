@@ -16,7 +16,7 @@ data_list = [
     {
         "ingredients": ["tomato", "basil", "mozzarella", "olive oil"],
         "cuisine": "Italian",
-        "course": "Appetizer",
+        "course": None,
         "craving": None,
         "veg": True
     },
@@ -52,18 +52,22 @@ data_list = [
 loop = 10
 total_og_time = 0
 total_bf_time = 0
+total_cal_time = 0
 
 for _ in range(loop):
-    data = random.choice(data_list)  # Randomly select data
+    data = random.choice(data_list)
     response = requests.post(url, json=data)
     response = requests.post(url, json={**data, "brute_force": True})
     total_og_time += response.json()['original']['execution_time']
     total_bf_time += response.json()['brute_force']['execution_time']
+    total_cal_time += response.json()['original']['similarity_calculation_time']
 
 average_og_time = total_og_time*100 / loop
 average_bf_time = total_bf_time*100 / loop
+average_cal_time = total_cal_time*100 / loop
 
 print(f"Average TF-IDF Vectorized approach time: {average_og_time:.3f} ms")
+print(f"Wherein Average similarity calculation time took: {average_cal_time:.3f} ms")
 print(f"Average brute force approach time: {average_bf_time:.3f} ms")
 print(f"Speed Factor: {(average_bf_time/average_og_time):.2f}x times FASTER than brute force approach")
 

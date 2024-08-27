@@ -1,4 +1,5 @@
 import time
+import timeit
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -10,7 +11,6 @@ from functools import lru_cache
 
 app = Flask(__name__)
 CORS(app)
-
 
 cuisine_weight = 0.2
 course_weight = 0.3
@@ -81,7 +81,7 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course)
 def get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg):
     start_time = time.time()
     
-    filtered_recipes = recipes_data[recipes_data['diet'].str.strip().str.lower() == "vegetarian" ] if user_veg else recipes_data
+    filtered_recipes = recipes_data[recipes_data['diet'].str.strip().str.lower() == "vegetarian"] if user_veg else recipes_data
 
     if filtered_recipes.empty:
         print("No recipes found for the given filter criteria.")
@@ -90,7 +90,11 @@ def get_recommendations_original(user_ingredients, user_cuisine, user_course, us
     user_ingredients_text = " ".join(user_ingredients)
     user_vector = vectorizer.transform([user_ingredients_text])
 
+    # Measure similarity calculation time
+    similarity_start_time = timeit.default_timer()
     similarities = cosine_similarity(user_vector, get_vectorized_data()).flatten()
+    similarity_end_time = timeit.default_timer()
+    similarity_time = similarity_end_time - similarity_start_time
 
     if len(similarities) != len(recipes_data):
         print(f"Mismatch in lengths: similarities length is {len(similarities)}, recipes_data length is {len(recipes_data)}")
@@ -98,7 +102,6 @@ def get_recommendations_original(user_ingredients, user_cuisine, user_course, us
     weighted_similarities = []
     for idx, sim in enumerate(similarities):
         if idx >= len(filtered_recipes):
-            #print(f"Index {idx} out of bounds for filtered_recipes with length {len(filtered_recipes)}")
             continue
         weighted_similarity = calculate_weighted_similarity(sim, filtered_recipes.iloc[idx], user_cuisine, user_course)
         weighted_similarities.append(weighted_similarity)
@@ -132,7 +135,7 @@ def get_recommendations_original(user_ingredients, user_cuisine, user_course, us
     end_time = time.time()
     execution_time = end_time - start_time
     
-    return tuple(recommendations), execution_time
+    return tuple(recommendations), execution_time, similarity_time
 
 
 def get_recommendations_brute_force(user_ingredients, user_cuisine, user_course, user_veg):
@@ -177,12 +180,13 @@ def recommend_recipes():
     user_veg = data.get('veg', False)
 
     brute_force_recommendations, brute_force_time = get_recommendations_brute_force(user_ingredients, user_cuisine, user_course, user_veg)
-    original_recommendations, original_time = get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg)
+    original_recommendations, original_time, similarity_time = get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg)
     
     return jsonify({
         'original': {
             'recommendations': original_recommendations,
-            'execution_time': original_time
+            'execution_time': original_time,
+            'similarity_calculation_time': similarity_time
         },
         'brute_force': {
             'recommendations': brute_force_recommendations,
@@ -192,4 +196,3 @@ def recommend_recipes():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
