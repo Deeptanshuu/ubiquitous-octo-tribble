@@ -82,17 +82,38 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course)
 def get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg):
     start_time = time.time()
     
-    filtered_recipes = recipes_data[recipes_data['diet'].str.strip().str.lower() == "vegetarian"] if user_veg else recipes_data
+    filtered_recipes = recipes_data[recipes_data['diet'].str.strip().str.lower() == "vegetarian" ] if user_veg else recipes_data
+
+    if filtered_recipes.empty:
+        print("No recipes found for the given filter criteria.")
+        return [], 0
+
     user_ingredients_text = " ".join(user_ingredients)
     user_vector = vectorizer.transform([user_ingredients_text])
 
     similarities = cosine_similarity(user_vector, get_vectorized_data()).flatten()
-    weighted_similarities = [
-        calculate_weighted_similarity(sim, filtered_recipes.iloc[idx], user_cuisine, user_course)
-        for idx, sim in enumerate(similarities)
-    ]
+
+    if len(similarities) != len(recipes_data):
+        print(f"Mismatch in lengths: similarities length is {len(similarities)}, recipes_data length is {len(recipes_data)}")
+    
+    weighted_similarities = []
+    for idx, sim in enumerate(similarities):
+        if idx >= len(filtered_recipes):
+            #print(f"Index {idx} out of bounds for filtered_recipes with length {len(filtered_recipes)}")
+            continue
+        weighted_similarity = calculate_weighted_similarity(sim, filtered_recipes.iloc[idx], user_cuisine, user_course)
+        weighted_similarities.append(weighted_similarity)
+
+    if not weighted_similarities:
+        print("No weighted similarities calculated.")
+        return [], 0
 
     top_n_indices = np.argsort(weighted_similarities)[-10:][::-1]
+
+    if len(top_n_indices) == 0:
+        print("No top indices found.")
+        return [], 0
+
     top_recipes = filtered_recipes.iloc[top_n_indices]
 
     recommendations = []
@@ -114,7 +135,10 @@ def get_recommendations_original(user_ingredients, user_cuisine, user_course, us
     
     return tuple(recommendations), execution_time
 
+
+
 # Brute force approach remains the same
+@lru_cache(maxsize=None)
 def get_recommendations_brute_force(user_ingredients, user_cuisine, user_course, user_veg):
     start_time = time.time()
     
@@ -126,7 +150,7 @@ def get_recommendations_brute_force(user_ingredients, user_cuisine, user_course,
         course_match = 1 if user_course and user_course.strip().lower() == recipe['course'].strip().lower() else 0
         return ingredient_match + cuisine_weight * cuisine_match + course_weight * course_match
 
-    filtered_recipes['match_score'] = filtered_recipes.apply(calculate_match_score, axis=1)
+    filtered_recipes.loc[:, 'match_score'] = filtered_recipes.apply(calculate_match_score, axis=1)
     top_recipes = filtered_recipes.nlargest(10, 'match_score')
 
     recommendations = []
