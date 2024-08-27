@@ -49,7 +49,7 @@ data_list = [
      }
 ]
 
-loop = 5
+loop = 10
 total_og_time = 0
 total_bf_time = 0
 
