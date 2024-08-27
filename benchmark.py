@@ -12,7 +12,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-# Define weights for user preferences
 cuisine_weight = 0.2
 course_weight = 0.3
 
@@ -77,7 +76,7 @@ def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course)
     weighted_similarity = similarity * (1 - (cuisine_weight + course_weight)) + user_pref_similarity
     return weighted_similarity
 
-# Cached version of the original recommendation function
+
 @lru_cache(maxsize=None)
 def get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg):
     start_time = time.time()
@@ -137,8 +136,6 @@ def get_recommendations_original(user_ingredients, user_cuisine, user_course, us
 
 
 
-# Brute force approach remains the same
-@lru_cache(maxsize=None)
 def get_recommendations_brute_force(user_ingredients, user_cuisine, user_course, user_veg):
     start_time = time.time()
     
@@ -175,14 +172,14 @@ def get_recommendations_brute_force(user_ingredients, user_cuisine, user_course,
 @app.route('/api/recommend', methods=['POST'])
 def recommend_recipes():
     data = request.json
-    user_ingredients = tuple(data.get('ingredients', []))  # Converted to tuple for caching
+    user_ingredients = tuple(data.get('ingredients', []))
     user_cuisine = data.get('cuisine')
     user_course = data.get('course')
     user_veg = data.get('veg', False)
 
-    original_recommendations, original_time = get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg)
     brute_force_recommendations, brute_force_time = get_recommendations_brute_force(user_ingredients, user_cuisine, user_course, user_veg)
-
+    original_recommendations, original_time = get_recommendations_original(user_ingredients, user_cuisine, user_course, user_veg)
+    
     return jsonify({
         'original': {
             'recommendations': original_recommendations,
@@ -196,3 +193,4 @@ def recommend_recipes():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
