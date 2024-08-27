@@ -135,7 +135,6 @@ def get_recommendations_original(user_ingredients, user_cuisine, user_course, us
     return tuple(recommendations), execution_time
 
 
-
 def get_recommendations_brute_force(user_ingredients, user_cuisine, user_course, user_veg):
     start_time = time.time()
     

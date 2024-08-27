@@ -49,23 +49,19 @@ data_list = [
      }
 ]
 
+loop = 5
 total_og_time = 0
 total_bf_time = 0
 
-for _ in range(10):
+for _ in range(loop):
     data = random.choice(data_list)  # Randomly select data
-    start_time = time.time()
     response = requests.post(url, json=data)
-    end_time = time.time()
-    total_og_time += (end_time - start_time) * 100
-
-    start_time = time.time()
     response = requests.post(url, json={**data, "brute_force": True})
-    end_time = time.time()
-    total_bf_time += (end_time - start_time) * 100
+    total_og_time += response.json()['original']['execution_time']
+    total_bf_time += response.json()['brute_force']['execution_time']
 
-average_og_time = total_og_time / 10
-average_bf_time = total_bf_time / 10
+average_og_time = total_og_time*100 / loop
+average_bf_time = total_bf_time*100 / loop
 
 print(f"Average TF-IDF Vectorized approach time: {average_og_time:.3f} ms")
 print(f"Average brute force approach time: {average_bf_time:.3f} ms")
