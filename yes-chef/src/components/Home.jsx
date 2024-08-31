@@ -22,7 +22,7 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isVeg, setIsVeg] = useState(false);
-  const placeholderImage = '/placeholder.png';
+  const placeholderImage = 'https://via.placeholder.com/300x200.png?text=Placeholder+Image';
 
   const handleVegToggle = (newState) => {
     setIsVeg(newState);
