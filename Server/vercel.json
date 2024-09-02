@@ -1,30 +1,19 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "app.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "7k-dataset-api.py",
-        "use": "@vercel/python"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/7k-dataset-api.py"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/app.js"
-      }
-    ],
-    "functions": {
-      "7k-dataset-api.py": {
-        "memory": 512,
-        "maxDuration": 10
-      }
+  "version": 2,
+  "functions": {
+    "api/7k-dataset-api.py": {
+      "memory": 512,
+      "maxDuration": 10
     }
-  }
-  
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/7k-dataset-api.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
+    }
+  ]
+}
