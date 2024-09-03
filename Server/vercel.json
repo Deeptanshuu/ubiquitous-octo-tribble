@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/7k-dataset-api.py": {
+    "api/7k-tf-vectors.py": {
       "memory": 1024,
       "maxDuration": 10
     }
@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/7k-dataset-api.py"
+      "dest": "/api/7k-tf-vectors.py"
     },
     {
       "src": "/(.*)",

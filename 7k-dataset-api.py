@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -8,9 +8,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 CORS(app)
 
-app.route('/')
-def index():
-    return render_template('yes-chef/dist/index.html')
 
 # Load your dataset
 recipes_data = pd.read_csv('7k-dataset.csv')
