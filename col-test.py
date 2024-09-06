@@ -14,8 +14,6 @@ ingredient_names_set = set()
 
 # Iterate through the 'ingredients_name' column and add each item to the set
 for ingredients in df['ingredients_name'].dropna():
-    # Split ingredients by a delimiter if necessary (e.g., comma)
-    # Assuming ingredients are separated by commas
     ingredients_list = ingredients.split(',')
     ingredient_names_set.update([ingredient.strip() for ingredient in ingredients_list])
 
