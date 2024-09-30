@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cosine-similarity": "^1.0.1",
+    "csv-parser": "^3.0.0",
+    "express": "^4.21.0",
+    "mathjs": "^13.1.1",
+    "natural": "^8.0.1"
+  },
+  "name": "JS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
