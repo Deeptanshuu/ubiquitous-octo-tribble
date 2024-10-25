@@ -27,7 +27,7 @@ const AIToggle = ({ initialState, onChange }) => {
           {isAI && <span className="text-xs">🪄</span>}
         </div>
       </div>
-      <span className={`ml-2 text-sm font-medium ${isAI ? 'text-blue-600' : 'text-gray-400'}`}>AI Magic 🪄</span>
+      <span className={`ml-2 text-sm font-medium ${isAI ? 'text-blue-600' : 'text-gray-400'}`}>AI/ML 🪄</span>
     </div>
   );
 };

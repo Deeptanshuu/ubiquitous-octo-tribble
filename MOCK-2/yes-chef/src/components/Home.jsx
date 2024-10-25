@@ -6,6 +6,7 @@ import { Clock, Utensils } from 'lucide-react';
 import VegToggle from './VegToggle';
 import Loading from './Loading';
 import AIToggle from './AIToggle';
+import bgImage from './bg.svg';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isVeg, setIsVeg] = useState(false);
-  const placeholderImage = 'https://via.placeholder.com/300x200.png?text=Placeholder+Image';
+  const placeholderImage = "https://via.placeholder.com/300x200.png?text=Placeholder+Image";
   const [customIngredients, setCustomIngredients] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [displayedIngredients, setDisplayedIngredients] = useState([]);
@@ -78,7 +79,7 @@ const Home = () => {
       'chickpeas 🌱', 'cumin 🌿', 'coriander 🌿', 'corn tortillas 🌽', 'cheese 🧀', 'enchilada sauce 🌶️',
       'red onion 🧅', 'soya sauce 🍶', 'broccoli 🥦', 'red bell pepper 🌶️', 'potatoes 🥔', 'rice paper wrappers 🍚',
       'pork/shrimp/vegetables 🍖🍤🥗', 'vermicelli noodles 🍜', 'mint 🌿', 'eggplant 🍆', 'zucchini 🥒', 
-      'assorted vegetables 🥗', 'sausage 🌭', 'shrimp 🍤', 'cajun seasoning 🌶️', 
+      'assorted vegetables 🥗', 'sausage 🌭', 'shrimp 🍤', 'cajun seasoning 🌶��', 
       'kidney beans 🌱', 'black beans 🌱', 'chili powder 🌶️', 'beans 🌱',
       'meat (chicken, steak, carnitas) 🍗🥩', 'salsa 🌶️', 'guacamole 🥑', 'bacon 🥓', 'hard-boiled egg 🥚', 'cashews 🥜',
       'rice vinegar 🍚', 'chili paste 🌶️', 'nutritional yeast 🌾', 'black pepper 🌶️', 'vegetables (onion, bell pepper, spinach) 🧅🌶️🌿',
@@ -313,9 +314,18 @@ const Home = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const Chip = ({ label }) => (
+    <div className="flex items-center bg-gray-200 text-gray-800 px-2 py-1 rounded-full mr-2 m-1 min-w-max">
+      <span>{label}</span>
+    </div>
+  );
+
   return (
     <>
-      <div className="home flex flex-col md:flex-row bg-white relative">
+      <div className="home flex flex-col md:flex-row bg-white relative" style={{
+        background: `url(${bgImage}) repeat`,
+        backgroundSize: '500px 500px'
+      }}>
         {/* Menu toggle button */}
         <button
           className="fixed top-6 left-4 z-50 bg-gray-800 text-white p-2 rounded-full shadow-lg"
@@ -531,7 +541,7 @@ const Home = () => {
         <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
           <div className="md:grid md:grid-cols-3 md:gap-7 flex flex-col gap-10">
             {searchResults.length === 0 && loading === false ? (
-              <h1 className="text-4xl w-full px-3 py-64 font-bold text-center mb-6">
+              <h1 className="text-4xl w-full px-3 p-6 my-64 font-bold text-center mb-6 text-black bg-white border-2  border-black rounded-lg">
                 👈 Use the filters to get started
               </h1>
             ) : (
@@ -542,48 +552,48 @@ const Home = () => {
                   </div>
                 ) : (
                   <>
-                    <h1 className="text-4xl font-bold mb-2 border-b border-slate-800 pb-4 col-span-3">
+                    <h1 className="text-4xl bg-white font-bold m-2 pl-5 p-4 border-2 rounded-lg  border-slate-800 col-span-3">
                       Our Top Results 👇
                     </h1>
-                    <div className="bg-gray-100 rounded-lg p-3 mb-1 m-0 col-span-3">
-                      <h2 className="text-lg font-semibold text-gray-700">Selected Filters:</h2>
+                    <div className="bg-gray-100 border-2 border-zinc-900 rounded-lg p-3 mb-1 m-0 col-span-3">
+                      <h2 className="text-lg font-semibold text-gray-900">Selected Filters:</h2>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {selectedIngredients.length > 0 && (
-                          <div className="flex items-center bg-blue-200 text-blue-800 px-2 py-1 rounded-full">
-                            <span>Ingredients:</span>
+                          <div className="flex flex-warp overflow-scroll items-center">
+                            <span className="font-semibold">Ingredients:</span>
                             {selectedIngredients.map(ing => (
-                              <span key={ing.id} className="ml-1">{ing.name}</span>
+                              <Chip key={ing.id} label={ing.name} onRemove={() => deselectIngredient(ing)} />
                             ))}
                           </div>
-                        )}
+                        )}<br/>
                         {selectedCuisines.length > 0 && (
-                          <div className="flex items-center bg-green-200 text-green-800 px-2 py-1 rounded-full">
-                            <span>Cuisines:</span>
+                          <div className="flex items-center">
+                            <span className="font-semibold">Cuisines:</span>
                             {selectedCuisines.map(cuisine => (
-                              <span key={cuisine} className="ml-1">{cuisine}</span>
+                              <Chip key={cuisine} label={cuisine} onRemove={() => handleCuisineChange(cuisine)} />
                             ))}
                           </div>
-                        )}
+                        )}<br/>
                         {selectedCourse && (
-                          <div className="flex items-center bg-yellow-200 text-yellow-800 px-2 py-1 rounded-full">
-                            <span>Course:</span>
-                            <span className="ml-1">{selectedCourse}</span>
+                          <div className="flex items-center">
+                            <span className="font-semibold">Course:</span>
+                            <Chip label={selectedCourse} onRemove={() => handleCourseChange('')} />
                           </div>
-                        )}
+                        )}<br/>
                         {selectedCravings.length > 0 && (
-                          <div className="flex items-center bg-red-200 text-red-800 px-2 py-1 rounded-full">
-                            <span>Cravings:</span>
+                          <div className="flex items-center">
+                            <span className="font-semibold">Cravings:</span>
                             {selectedCravings.map(craving => (
-                              <span key={craving} className="ml-1">{craving}</span>
+                              <Chip key={craving} label={craving} onRemove={() => handleCravingChange(craving)} />
                             ))}
                           </div>
-                        )}
+                        )}<br/>
                       </div>
                     </div>
                     {executionTime !== null && (
-                      <div className="bg-gray-100 rounded-lg p-3 mb-4 col-span-3 flex items-center justify-between">
+                      <div className="bg-gray-100 border-2 border-zinc-900 rounded-lg p-3 mb-4 col-span-3 flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-semibold text-gray-700">Execution Time</p>
+                          <p className="text-lg font-semibold text-gray-900">Execution Time</p>
                           <p className="text-2xl font-bold text-blue-600">{executionTime.toFixed(2)} ms</p>
                           {previousExecutionTime && (
                             <p className={`text-sm ${executionTime < previousExecutionTime ? 'text-green-600' : 'text-red-600'}`}>

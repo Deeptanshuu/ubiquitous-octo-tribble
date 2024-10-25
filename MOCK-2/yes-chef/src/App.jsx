@@ -1,8 +1,8 @@
 import Home from './components/Home'
 import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
-import Recpie from './components/Recpie';
+import Recpie from './components/Recipe';
 import Loading from './components/Loading';
-
+import Footer from './components/Footer';
 function App() {
   
   return (
@@ -12,6 +12,7 @@ function App() {
       <Route path="/recpie" element={<Recpie />}></Route>
       <Route path="/loading" element={<Loading />}></Route> 
     </Routes>
+    <Footer />
     </Router>
   )
 }

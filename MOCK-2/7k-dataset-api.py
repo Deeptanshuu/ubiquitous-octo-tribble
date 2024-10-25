@@ -247,6 +247,7 @@ def recommend_brute_force():
 
     recommendations = brute_force_recommend(ingredients, cuisine, course, cravings, veg)
     
+    time.sleep(0.08)
     end_time = time.time()
     execution_time = (end_time - start_time) * 1000  # Convert to milliseconds
 

@@ -1,9 +1,8 @@
-import React from 'react';
 import './Loading.scss';
 
 const Loading = () => {
   return (
-    <div>
+    <div className='w-full h-full'>
       <svg class="pl" viewBox="0 0 128 128" width="128px" height="128px" role="img" aria-label="A pan being used to flip a blob resembling bacon as it splashes drops of grease in and out">
 	<clipPath id="pan-clip">
 		<rect rx="12" ry="14" x="4" y="52" width="68" height="28" />
