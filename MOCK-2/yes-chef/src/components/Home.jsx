@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
-import  { useState } from 'react';
-import { X, ChevronDown, ChevronUp, Search } from 'lucide-react';
+import  { useState, useEffect } from 'react';
+import { X, ChevronDown, ChevronUp, Search, Menu } from 'lucide-react';
 import { Clock, Utensils } from 'lucide-react';
 import VegToggle from './VegToggle';
 import Loading from './Loading';
+import AIToggle from './AIToggle';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,15 @@ const Home = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isVeg, setIsVeg] = useState(false);
   const placeholderImage = 'https://via.placeholder.com/300x200.png?text=Placeholder+Image';
+  const [customIngredients, setCustomIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [displayedIngredients, setDisplayedIngredients] = useState([]);
+  const [isAI, setIsAI] = useState(true);
+  const [executionTime, setExecutionTime] = useState(null);
+  const [previousExecutionTime, setPreviousExecutionTime] = useState(null);
+  const [previousMethod, setPreviousMethod] = useState(null);
+  const [lastUsedMethod, setLastUsedMethod] = useState('AI Magic 🪄');
+  const [isMenuVisible, setIsMenuVisible] = useState(false); // Start with the menu hidden on small screens
 
   const handleVegToggle = (newState) => {
     setIsVeg(newState);
@@ -30,6 +40,9 @@ const Home = () => {
   
 
   function removeEmojis(str) {
+    if (typeof str !== 'string') {
+      return str;
+    }
     return str.replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
               .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Symbols & Pictographs
               .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport & Map Symbols
@@ -44,41 +57,84 @@ const Home = () => {
   }
   //hi this is a private repo now 
 
-  const ingredients = [
-    'flour 🌾', 'sugar 🍬', 'eggs 🥚', 'chocolate 🍫', 'butter 🧈', 'vanilla extract 🌼',
-    'rice noodles 🍜', 'tofu 🍶', 'bean sprouts 🌱', 'peanuts 🥜', 'lime 🍋', 'fish sauce 🐟',
-    'tamarind paste 🌰', 'garlic 🧄', 'shallots 🧅', 'chicken 🍗', 'onions 🧅', 'tomatoes 🍅',
-    'coconut milk 🥥', 'curry paste 🍛', 'ginger 🍂', 'cilantro 🌿', 'cocoa powder 🍫', 'milk 🥛',
-    'vegetable oil 🌻', 'baking powder 🥄', 'salt 🧂', 'ground beef 🥩', 'pasta 🍝', 'carrots 🥕',
-    'celery 🌿', 'red wine 🍷', 'beef broth 🍲', 'noodles 🍜', 'thyme 🌿', 'parsley 🌿', 'apples 🍎',
-    'cinnamon 🍂', 'nutmeg 🍂', 'lemon juice 🍋', 'mixed vegetables 🥗', 'vegetable broth 🥣',
-    'sushi rice 🍚', 'nori 🍙', 'fish (salmon/tuna) 🐟', 'cucumber 🥒', 'avocado 🥑',
-    'wasabi 🌶️', 'soy sauce 🍶', 'romaine lettuce 🥬', 'croutons 🥖', 'parmesan cheese 🧀', 'caesar dressing 🥗',
-    'anchovies 🐟', 'cream 🥛', 'basil 🌿', 'taco shells 🌮', 'lettuce 🥬', 'cheese 🧀', 'sour cream 🍶',
-    'taco seasoning 🌶️', 'sesame oil 🌻', 'rice 🍚', 'pie crust 🥧', 'lemons 🍋', 'cornstarch 🌽',
-    'arborio rice 🍚', 'mushrooms 🍄', 'white wine 🍷', 'pork ribs 🍖', 'bbq sauce 🍖', 'brown sugar 🍬',
-    'paprika 🌶️', 'garlic powder 🧄', 'onion powder 🧅', 'cucumbers 🥒', 'red onions 🧅', 'feta cheese 🧀',
-    'olives 🫒', 'olive oil 🌿', 'oregano 🌿', 'yogurt 🥛', 'tomato sauce 🍅', 'garam masala 🌶️', 'bananas 🍌',
-    'baking soda 🥄', 'beef strips 🥩', 'egg noodles 🍜', 'fresh mozzarella 🧀', 'balsamic vinegar 🍶',
-    'beef/chicken 🥩🍗', 'herbs 🌿', 'chili 🌶️', 'star anise 🌟', 'ladyfingers 🍰', 'espresso ☕', 'mascarpone cheese 🧀',
-    'chickpeas 🌱', 'cumin 🌿', 'coriander 🌿', 'corn tortillas 🌽', 'chicken/beef/cheese 🍗🥩🧀', 'enchilada sauce 🌶️',
-    'red onion 🧅', 'beef 🥩', 'broccoli 🥦', 'red bell pepper 🌶️', 'potatoes 🥔', 'rice paper wrappers 🍚',
-    'pork/shrimp/vegetables 🍖🍤🥗', 'vermicelli noodles 🍜', 'mint 🌿', 'eggplant 🍆', 'zucchini 🥒', 
-    'assorted vegetables 🥗', 'sausage 🌭', 'shrimp 🍤', 'cajun seasoning 🌶️', 'ground beef/turkey 🥩🦃',
-    'kidney beans 🌱', 'black beans 🌱', 'chili powder 🌶️', 'beans (black beans, pinto beans) 🌱',
-    'meat (chicken, steak, carnitas) 🍗🥩', 'salsa 🌶️', 'guacamole 🥑', 'bacon 🥓', 'hard-boiled egg 🥚', 'cashews 🥜',
-    'rice vinegar 🍚', 'chili paste 🌶️', 'nutritional yeast 🌾', 'black pepper 🌶️', 'vegetables (onion, bell pepper, spinach) 🧅🌶️🌿',
-    'lentils 🌱', 'herbs (thyme, bay leaf) 🌿', 'salmon fillet 🐟', 'lemon slices 🍋', 'fresh herbs (dill, parsley) 🌿',
-    'pepper 🌶️', 'quinoa 🍚', 'cherry tomatoes 🍅', 'chicken breast 🍗', 'breadcrumbs 🥖', 'mozzarella cheese 🧀',
-    'lasagna noodles 🍜', 'ricotta cheese 🧀', 'spinach 🌿', 'beef chuck 🥩', 'Guinness beer 🍺', 'dashi stock 🍲',
-    'miso paste 🍲', 'wakame seaweed 🌿', 'chicken thighs 🍗', 'pita bread 🥖', 'turmeric 🌿',
-    'basmati rice 🍚', 'biryani spices 🌿', 'saffron 🌼', 'white fish 🐟', 'tartar sauce 🐟', 'lemon wedges 🍋',
-    'cauliflower 🥦', 'blue cheese dressing 🥗', 'beef slices 🥩', 'pizza dough 🍕', 'tortillas 🌮', 'bell peppers 🌶️',
-    'beef sirloin 🥩', 'green onions 🧅', 'tempura batter 🍤', 'dipping sauce 🥣', 'clams 🐚', 'heavy cream 🥛',
-    'phyllo dough 🥐', 'dill 🌿', 'beef tenderloin 🥩', 'mushroom duxelles 🍄', 'prosciutto 🥓', 'puff pastry 🥐',
-    'dijon mustard 🌶️', 'maple syrup 🍁', 'almond milk 🥛'
-  ];
+  useEffect(() => {
+    const ingredientsWithIds = [
+      'flour 🌾', 'sugar 🍬', 'eggs 🥚', 'chocolate 🍫', 'butter 🧈', 'vanilla extract 🌼',
+      'rice noodles 🍜', 'tofu 🍶', 'bean sprouts 🌱', 'peanuts 🥜', 'lime 🍋', 'fish sauce 🐟',
+      'tamarind paste 🌰', 'garlic 🧄', 'shallots 🧅', 'onions 🧅', 'tomatoes 🍅',
+      'coconut milk 🥥', 'curry paste 🍛', 'ginger 🍂', 'cilantro 🌿', 'cocoa powder 🍫', 'milk 🥛',
+      'vegetable oil 🌻', 'baking powder 🥄', 'salt 🧂',  'pasta 🍝', 'carrots 🥕',
+      'celery 🌿', 'red wine 🍷' ,'noodles 🍜', 'thyme 🌿', 'parsley 🌿', 'apples 🍎',
+      'cinnamon 🍂', 'nutmeg 🍂', 'lemon juice 🍋', 'mixed vegetables 🥗', 'vegetable broth 🥣',
+      'sushi rice 🍚', 'nori 🍙', 'fish (salmon/tuna) 🐟', 'cucumber 🥒', 'avocado 🥑',
+      'wasabi 🌶️', 'soy sauce 🍶', 'romaine lettuce 🥬', 'croutons 🥖', 'parmesan cheese 🧀', 'caesar dressing 🥗',
+      'anchovies 🐟', 'cream 🥛', 'basil 🌿', 'taco shells 🌮', 'lettuce 🥬', 'cheese 🧀', 'sour cream 🍶',
+      'taco seasoning 🌶️', 'sesame oil 🌻', 'rice 🍚', 'pie crust 🥧', 'lemons 🍋', 'cornstarch 🌽',
+      'arborio rice 🍚', 'mushrooms 🍄', 'white wine 🍷', 'pork ribs 🍖', 'bbq sauce 🍖', 'brown sugar 🍬',
+      'paprika 🌶️', 'garlic powder 🧄', 'onion powder 🧅', 'cucumbers 🥒', 'red onions 🧅', 'feta cheese 🧀',
+      'olives 🫒', 'olive oil 🌿', 'oregano 🌿', 'yogurt 🥛', 'tomato sauce 🍅', 'garam masala 🌶️', 'bananas 🍌',
+      'baking soda 🥄', 'egg noodles ', 'fresh mozzarella 🧀', 'balsamic vinegar 🍶',
+      'chicken 🍗', 'herbs 🌿', 'chili 🌶️', 'star anise 🌟', 'ladyfingers 🍰', 'espresso ☕', 'mascarpone cheese 🧀',
+      'chickpeas 🌱', 'cumin 🌿', 'coriander 🌿', 'corn tortillas 🌽', 'cheese 🧀', 'enchilada sauce 🌶️',
+      'red onion 🧅', 'soya sauce 🍶', 'broccoli 🥦', 'red bell pepper 🌶️', 'potatoes 🥔', 'rice paper wrappers 🍚',
+      'pork/shrimp/vegetables 🍖🍤🥗', 'vermicelli noodles 🍜', 'mint 🌿', 'eggplant 🍆', 'zucchini 🥒', 
+      'assorted vegetables 🥗', 'sausage 🌭', 'shrimp 🍤', 'cajun seasoning 🌶️', 
+      'kidney beans 🌱', 'black beans 🌱', 'chili powder 🌶️', 'beans 🌱',
+      'meat (chicken, steak, carnitas) 🍗🥩', 'salsa 🌶️', 'guacamole 🥑', 'bacon 🥓', 'hard-boiled egg 🥚', 'cashews 🥜',
+      'rice vinegar 🍚', 'chili paste 🌶️', 'nutritional yeast 🌾', 'black pepper 🌶️', 'vegetables (onion, bell pepper, spinach) 🧅🌶️🌿',
+      'lentils 🌱', 'herbs (thyme, bay leaf) 🌿', 'salmon fillet 🐟', 'lemon slices 🍋', 'fresh herbs (dill, parsley) 🌿',
+      'pepper 🌶️', 'quinoa 🍚', 'cherry tomatoes 🍅', 'chicken breast 🍗', 'breadcrumbs 🥖', 'mozzarella cheese 🧀',
+      'lasagna noodles 🍜', 'ricotta cheese 🧀', 'spinach 🌿', 'chicken chuck 🥩', 'Guinness beer 🍺', 'dashi stock 🍲',
+      'miso paste 🍲', 'wakame seaweed 🌿', 'chicken thighs 🍗', 'pita bread 🥖', 'turmeric 🌿',
+      'basmati rice 🍚', 'biryani spices 🌿', 'saffron 🌼', 'white fish 🐟', 'tartar sauce 🐟', 'lemon wedges 🍋',
+      'cauliflower 🥦', 'blue cheese dressing 🥗', 'chicken slices 🥩', 'pizza dough 🍕', 'tortillas 🌮', 'bell peppers 🌶️',
+     'green onions 🧅', 'tempura batter 🍤', 'dipping sauce 🥣', 'clams 🐚', 'heavy cream 🥛',
+      'phyllo dough 🥐', 'dill 🌿', 'mushroom duxelles 🍄', 'prosciutto 🥓', 'puff pastry 🥐',
+      'dijon mustard 🌶️', 'maple syrup 🍁', 'almond milk 🥛'
+    ].map((ing, index) => ({ id: `ing_${index}`, name: ing }));
+    setIngredients(ingredientsWithIds);
+    setDisplayedIngredients(ingredientsWithIds);
+  }, []);
 
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    updateDisplayedIngredients(term);
+  };
+
+  const updateDisplayedIngredients = (term) => {
+    if (term) {
+      setDisplayedIngredients(ingredients.filter(ing => 
+        ing.name.toLowerCase().includes(term.toLowerCase())
+      ));
+    } else {
+      setDisplayedIngredients(ingredients);
+    }
+  };
+
+  const selectIngredient = (ingredient) => {
+    if (!selectedIngredients.find(sel => sel.id === ingredient.id)) {
+      setSelectedIngredients([...selectedIngredients, ingredient]);
+    }
+    setSearchTerm("");
+    updateDisplayedIngredients("");
+  };
+
+  const deselectIngredient = (ingredient) => {
+    setSelectedIngredients(selectedIngredients.filter(sel => sel.id !== ingredient.id));
+  };
+
+  const handleAddCustomIngredient = () => {
+    if (searchTerm && !ingredients.find(ing => ing.name.toLowerCase() === searchTerm.toLowerCase()) && !customIngredients.includes(searchTerm)) {
+      setCustomIngredients([...customIngredients, searchTerm]);
+      setSearchTerm("");
+      updateDisplayedIngredients("");
+    }
+  };
+
+  const removeCustomIngredient = (ingredient) => {
+    setCustomIngredients(customIngredients.filter(ing => ing !== ingredient));
+  };
 
   const cuisines = [
     'American 🍔', 'Thai 🇹🇭', 'Indian 🇮🇳', 'International 🌎', 'Italian 🍝', 'Japanese 🍣',
@@ -98,14 +154,6 @@ const Home = () => {
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const handleIngredientToggle = (ingredient) => {
-    setSelectedIngredients(prev =>
-      prev.includes(ingredient)
-        ? prev.filter(i => i !== ingredient)
-        : [...prev, ingredient]
-    );
   };
 
   const handleCuisineChange = (cuisine) => {
@@ -128,9 +176,9 @@ const Home = () => {
     );
   };
 
-  const filteredIngredients = ingredients.filter(ingredient =>
-    ingredient.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleAIToggle = (newState) => {
+    setIsAI(newState);
+  };
 
   //const cleanedIngredients = selectedIngredients.map(removeEmojis);
   const cleanedCuisines = selectedCuisines.map(removeEmojis);
@@ -142,7 +190,7 @@ const Home = () => {
  
   }
   const handleSubmit = async () => {
-    const cleanedIngredients = selectedIngredients.map(removeEmojis);
+    const cleanedIngredients = [...selectedIngredients.map(ing => removeEmojis(ing.name)), ...customIngredients];
     const cleanedCravings = selectedCravings.map(removeEmojis);
     const cleanedCuisine = selectedCuisines.map(removeEmojis);
     const cleanedCourse = removeEmojis(selectedCourse);
@@ -162,7 +210,9 @@ const Home = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/recommend`, {
+      const endpoint = isAI ? '/api/recommend-ai' : '/api/recommend-brute-force';
+      const currentMethod = isAI ? 'AI Magic 🪄' : 'Brute Force 🔨';
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -173,8 +223,13 @@ const Home = () => {
       const result = await response.json();
       
       setTimeout(() => {
-              setSearchResults(result);
-              setLoading(false);
+        setSearchResults(result.recommendations);
+        setPreviousExecutionTime(executionTime);
+        setPreviousMethod(lastUsedMethod);
+        setExecutionTime(result.execution_time);
+        setLastUsedMethod(currentMethod);
+        // Remove this line: setCached(result.cached);
+        setLoading(false);
       }, 100);
 
       console.log('Success:', result);
@@ -191,6 +246,7 @@ const Home = () => {
     setSearchTerm('');
     setIsVeg(false);
     setSearchResults([]);
+    setCustomIngredients([]);
   };
 
 /*  const exampleRecipes = [
@@ -242,19 +298,59 @@ const Home = () => {
     );
   }
 
+  const toggleMenu = () => {
+    setIsMenuVisible(!isMenuVisible);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Show the menu if the screen width is greater than or equal to 768px
+      setIsMenuVisible(window.innerWidth >= 1000);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call it initially to set the correct state
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <>
-      <div className="home flex md:flex-row flex-col bg-white">
-        <div className="search-menu w-full min-h-screen border-r-2 border-gray-600 shadow-xl shadow-gray-600 flex flex-col p-5 bg-white md:w-1/3 ">
+      <div className="home flex flex-col md:flex-row bg-white relative">
+        {/* Menu toggle button */}
+        <button
+          className="fixed top-6 left-4 z-50 bg-gray-800 text-white p-2 rounded-full shadow-lg"
+          onClick={toggleMenu}
+        >
+          <Menu size={24} />
+        </button>
 
-          <h2 className="text-3xl p-1 font-bold mb-3 text-gray-800" >What's for Dinner ?</h2>
+    {/* Search menu */}
+    <div
+      className={`search-menu ${
+        isMenuVisible ? 'w-full md:w-1/3' : 'w-0'
+      } h-screen md:h-auto overflow-y-auto border-r-2 border-gray-600 shadow-xl shadow-gray-600 flex flex-col p-5 bg-white transition-all duration-300 ease-in-out fixed md:static top-0 left-0 z-40 ${
+        isMenuVisible ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
+          <button
+            className="md:hidden absolute top-4 right-4 text-gray-600"
+            onClick={toggleMenu}
+          >
+            <X size={24} />
+          </button>
 
-          <div className="flex flex-row justify-start p-3">
+          <h2 className="text-3xl p-1 pl-10 font-bold mb-3 text-gray-800">What's for Dinner?</h2>
+
+          <div className="flex flex-row justify-between p-3">
+            <div className="flex items-center">
               <p className='text-base font-semibold mx-2 mb-2 px-3 py-1 rounded-full bg-green-300 text-green-700'>Veg Mode</p>
               <div className='p-1'>
                 <VegToggle initialState={isVeg} onChange={handleVegToggle}/>
               </div>
+            </div>
+            <div className="flex items-center">
+              <AIToggle initialState={isAI} onChange={handleAIToggle} />
+            </div>
           </div>
           
           {/* Ingredients Section */}
@@ -273,36 +369,62 @@ const Home = () => {
                     type="text"
                     placeholder="Search ingredients..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={handleSearchChange}
                     className="w-full p-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
+                  {searchTerm && !ingredients.find(ing => ing.name.toLowerCase() === searchTerm.toLowerCase()) && !customIngredients.includes(searchTerm) && (
+                    <button
+                      onClick={handleAddCustomIngredient}
+                      className="absolute right-2 top-2 px-2 py-1 bg-blue-500 text-white rounded-full text-sm"
+                    >
+                      Add
+                    </button>
+                  )}
                 </div>
                 <div className="flex p-5 max-h-80 overflow-auto flex-wrap gap-2">
-                  {filteredIngredients
+                  {displayedIngredients
                     .sort((a, b) => {
-                      const aSelected = selectedIngredients.includes(a);
-                      const bSelected = selectedIngredients.includes(b);
+                      const aSelected = selectedIngredients.some(sel => sel.id === a.id);
+                      const bSelected = selectedIngredients.some(sel => sel.id === b.id);
                       if (aSelected && !bSelected) return -1;
                       if (!aSelected && bSelected) return 1;
                       return 0;
                     })
                     .map(ingredient => (
                       <button
-                        key={ingredient}
-                        onClick={() => handleIngredientToggle(ingredient)}
-                        className={`px-3 py-1 border-2 border-slate-500 rounded-full text-m font-medium transition duration-200 ${selectedIngredients.includes(ingredient)
-                          ? 'bg-stone-700 text-white'
-                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                          }`}
+                        key={ingredient.id}
+                        onClick={() => selectedIngredients.find(sel => sel.id === ingredient.id) ? deselectIngredient(ingredient) : selectIngredient(ingredient)}
+                        className={`px-3 py-1 border-2 border-slate-500 rounded-full text-m font-medium transition duration-200 ${
+                          selectedIngredients.find(sel => sel.id === ingredient.id)
+                            ? 'bg-stone-700 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
                       >
-                        {ingredient}
-                        {selectedIngredients.includes(ingredient) && (
+                        {ingredient.name}
+                        {selectedIngredients.find(sel => sel.id === ingredient.id) && (
                           <X size={14} className="inline-block ml-1" />
                         )}
                       </button>
                     ))}
                 </div>
+                {customIngredients.length > 0 && (
+                  <div className="mt-4 px-5">
+                    <h3 className="font-semibold mb-2 text-gray-700">Custom Ingredients:</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {customIngredients.map((ingredient, index) => (
+                        <button
+                          key={index}
+                          onClick={() => removeCustomIngredient(ingredient)}
+                          className="px-3 py-1 border-2 border-blue-500 rounded-full text-sm font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition duration-200 flex items-center"
+                        >
+                          {ingredient}
+                          <X size={14} className="ml-1" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -406,7 +528,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="result md:w-2/3 w-full overflow-x-scroll p-5 bg-white-200">
+        <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
           <div className="md:grid md:grid-cols-3 md:gap-7 flex flex-col gap-10">
             {searchResults.length === 0 && loading === false ? (
               <h1 className="text-4xl w-full px-3 py-64 font-bold text-center mb-6">
@@ -420,9 +542,67 @@ const Home = () => {
                   </div>
                 ) : (
                   <>
-                    <h1 className="text-4xl font-bold mb-6 border-b border-slate-800 pb-4 col-span-3">
+                    <h1 className="text-4xl font-bold mb-2 border-b border-slate-800 pb-4 col-span-3">
                       Our Top Results 👇
                     </h1>
+                    <div className="bg-gray-100 rounded-lg p-3 mb-1 m-0 col-span-3">
+                      <h2 className="text-lg font-semibold text-gray-700">Selected Filters:</h2>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {selectedIngredients.length > 0 && (
+                          <div className="flex items-center bg-blue-200 text-blue-800 px-2 py-1 rounded-full">
+                            <span>Ingredients:</span>
+                            {selectedIngredients.map(ing => (
+                              <span key={ing.id} className="ml-1">{ing.name}</span>
+                            ))}
+                          </div>
+                        )}
+                        {selectedCuisines.length > 0 && (
+                          <div className="flex items-center bg-green-200 text-green-800 px-2 py-1 rounded-full">
+                            <span>Cuisines:</span>
+                            {selectedCuisines.map(cuisine => (
+                              <span key={cuisine} className="ml-1">{cuisine}</span>
+                            ))}
+                          </div>
+                        )}
+                        {selectedCourse && (
+                          <div className="flex items-center bg-yellow-200 text-yellow-800 px-2 py-1 rounded-full">
+                            <span>Course:</span>
+                            <span className="ml-1">{selectedCourse}</span>
+                          </div>
+                        )}
+                        {selectedCravings.length > 0 && (
+                          <div className="flex items-center bg-red-200 text-red-800 px-2 py-1 rounded-full">
+                            <span>Cravings:</span>
+                            {selectedCravings.map(craving => (
+                              <span key={craving} className="ml-1">{craving}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {executionTime !== null && (
+                      <div className="bg-gray-100 rounded-lg p-3 mb-4 col-span-3 flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-semibold text-gray-700">Execution Time</p>
+                          <p className="text-2xl font-bold text-blue-600">{executionTime.toFixed(2)} ms</p>
+                          {previousExecutionTime && (
+                            <p className={`text-sm ${executionTime < previousExecutionTime ? 'text-green-600' : 'text-red-600'}`}>
+                              {executionTime < previousExecutionTime ? '↓ ' : '↑ '}
+                              {Math.abs(executionTime - previousExecutionTime).toFixed(2)} ms 
+                              {executionTime < previousExecutionTime ? ' faster' : ' slower'} than {previousMethod}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-gray-600">
+                            Method: {lastUsedMethod}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {executionTime < 100 ? 'Lightning fast! ⚡' : executionTime < 500 ? 'Pretty quick! 🚀' : 'Not too shabby 👍'}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                     {searchResults.map((recipe) => (
                       <RecipeCard
                         key={recipe.id}
@@ -436,13 +616,13 @@ const Home = () => {
                         veg={recipe.veg}
                       />
                     ))}
+
                   </>
                 )}
               </>
             )}
           </div>
         </div>
-
       </div>
     </>
   );
