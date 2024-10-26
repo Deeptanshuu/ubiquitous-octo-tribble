@@ -1,116 +1,164 @@
 import pandas as pd
-import plotly.graph_objects as go
-import networkx as nx
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.manifold import TSNE
+import plotly.graph_objects as go
+from tqdm import tqdm
+import concurrent.futures
+import multiprocessing
+from joblib import Memory
+
+# Set up caching
+memory = Memory("./cache_dir", verbose=0)
+
+# Function to process TF-IDF vectors
+@memory.cache
+def process_tfidf_vector(vector_str):
+    return np.array(eval(vector_str))
+
+# Function to calculate cosine similarity
+def calculate_similarity(user_vector, recipe_vector):
+    return cosine_similarity(user_vector.reshape(1, -1), recipe_vector.reshape(1, -1))[0][0]
+
+# Cached t-SNE function
+@memory.cache
+def cached_tsne(vectors):
+    tsne = TSNE(n_components=3, random_state=42, verbose=1)
+    return tsne.fit_transform(vectors)
 
 # Load the dataset
-data = pd.read_csv('7k-dataset-with-vectors.csv')
+print("Loading dataset...")
+df = pd.read_csv("7k-dataset-with-vectors.csv")
 
-# Use the first 100 entries for visualization
-data_subset = data.head(7500)
+# Limit to the first 7500 recipes
+df = df.head(7500)
 
-# Example user input
-user_input = {
-    "ingredients_name": ["chicken", "rice", "broccoli"]
-}
+# Convert 'tfidf_vectors' column from string to numpy array using multithreading
+print("Processing TF-IDF vectors...")
+with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
+    df['tfidf_vectors'] = list(tqdm(executor.map(process_tfidf_vector, df['tfidf_vectors']), total=len(df)))
 
-# Create a dummy vector for user input (mean of ingredient vectors)
-# In practice, you would create a proper TF-IDF vector from the user input.
-user_vector = np.mean(data_subset['tfidf_vectors'].apply(lambda x: np.array(eval(x))), axis=0).reshape(1, -1)
+# Step 1: Reduce dimensions of all recipe vectors to 3D using t-SNE
+print("Reducing dimensions...")
+recipes_3d = cached_tsne(np.vstack(df['tfidf_vectors']))
 
-# Calculate cosine similarity against the entire dataset
-cosine_similarities = cosine_similarity(user_vector, np.stack(data['tfidf_vectors'].apply(lambda x: np.array(eval(x)))))[0]
+# Step 2: Generate user ingredient vector
+# user_input_ingredients = ["chicken", "rice", "onion", "red chili", "egg noodles", "rice noodles", "ginger", "tomatoes"]
+user_input_ingredients = ["sugar", "chocolate", "vanilla extract", "baking soda", "eggs", "cocoa powder"]
+user_vector = np.zeros(df['tfidf_vectors'].iloc[0].shape)
+for ingredient in user_input_ingredients:
+    matching_recipes = df[df['ingredients_text'].str.contains(ingredient, case=False, na=False)]
+    if not matching_recipes.empty:
+        user_vector += np.mean(np.vstack(matching_recipes['tfidf_vectors']), axis=0)
 
-# Create a DataFrame for similarities
-similarity_df = pd.DataFrame({
-    'name': data['name'],
-    'similarity': cosine_similarities
-})
+# Normalize user vector only if it's not all zeros
+if np.any(user_vector):
+    user_vector = user_vector / np.linalg.norm(user_vector)
 
-# Get the top 100 matches with similarity greater than 0.1
-top_matches = similarity_df[similarity_df['similarity'] > 0.1].nlargest(100, 'similarity')
+# Combine user vector with recipe vectors for t-SNE
+all_vectors = np.vstack([np.vstack(df['tfidf_vectors']), user_vector])
 
-# Create a graph
-G = nx.Graph()
+# Apply t-SNE to all vectors including the user vector
+print("Reducing dimensions for all vectors...")
+all_vectors_3d = cached_tsne(all_vectors)
 
-# Add nodes for top matches
-for index, row in top_matches.iterrows():
-    G.add_node(row['name'], similarity=row['similarity'])
+# Separate the user vector and recipe vectors
+user_vector_3d = all_vectors_3d[-1]
+recipes_3d = all_vectors_3d[:-1]
 
-# Add edges based on similarity
-for i, row1 in top_matches.iterrows():
-    for j, row2 in top_matches.iterrows():
-        if i < j:  # Avoid duplicate edges
-            G.add_edge(row1['name'], row2['name'])
+# Step 3: Calculate cosine similarities using multithreading
+print("Calculating similarities...")
+with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
+    similarities = list(tqdm(executor.map(lambda x: calculate_similarity(user_vector, x), df['tfidf_vectors']), total=len(df)))
+df['similarity'] = similarities
 
-# Get positions for nodes using a layout
-pos = nx.spring_layout(G)
+# Get top 10 similar recipes
+top_10 = df.sort_values(by="similarity", ascending=False).head(15)
+bottom_10 = df.sort_values(by="similarity", ascending=True).head(50)
 
-# Create edge traces
-edge_x = []
-edge_y = []
-for edge in G.edges():
-    x0, y0 = pos[edge[0]]
-    x1, y1 = pos[edge[1]]
-    edge_x.append(x0)
-    edge_x.append(x1)
-    edge_x.append(None)
-    edge_y.append(y0)
-    edge_y.append(y1)
-    edge_y.append(None)
+# Prepare data for plotting
+top_10_indices = top_10.index
+bottom_10_indices = bottom_10.index
 
-edge_trace = go.Scatter(
-    x=edge_x, y=edge_y,
-    line=dict(width=0.5, color='#888'),
-    hoverinfo='none',
-    mode='lines'
-)
+# Step 4: Plot the 3D vector space using Plotly
+print("Generating plot...")
+fig = go.Figure()
 
-# Create node traces
-node_x = []
-node_y = []
-node_colors = []
-node_sizes = []
-for node, data in G.nodes(data=True):
-    x, y = pos[node]
-    node_x.append(x)
-    node_y.append(y)
-    if data.get('is_user_input', False):
-        node_colors.append('blue')
-        node_sizes.append(30)  # Make user input node larger
-    else:
-        node_colors.append(data['similarity'])
-        node_sizes.append(10 + data['similarity'] * 20)  # Adjust size based on similarity
-
-node_trace = go.Scatter(
-    x=node_x, y=node_y,
-    mode='markers',
-    hoverinfo='text',
-    text=[f"{node}: {data['similarity']:.2f}" for node, data in G.nodes(data=True)],
-    marker=dict(
-        showscale=True,
-        colorscale='YlOrRd',
-        size=node_sizes,
-        color=node_colors,
-        colorbar=dict(title='Similarity'),
-        line=dict(width=2)
+# Function to create arrow
+def create_arrow(start, end, color):
+    return go.Cone(
+        x=[end[0]],
+        y=[end[1]],
+        z=[end[2]],
+        u=[end[0] - start[0]],
+        v=[end[1] - start[1]],
+        w=[end[2] - start[2]],
+        colorscale=[[0, color], [1, color]],
+        showscale=False,
+        sizemode="absolute",
+        sizeref=1.3  # Significantly increased size
     )
+
+# Add top 10 recipe points as vectors originating from the origin (0, 0, 0) in green
+for i, idx in enumerate(top_10_indices):
+    recipe_name = df.loc[idx, 'name']  # Get recipe name
+    end_point = recipes_3d[idx]
+    fig.add_trace(go.Scatter3d(
+        x=[0, end_point[0]],  # Start from origin
+        y=[0, end_point[1]],  # Start from origin
+        z=[0, end_point[2]],  # Start from origin
+        mode='lines',
+        line=dict(color='green', width=3),  # Use green for top 10 recipe vectors
+        name=f"Top {i+1}: {recipe_name}",  # Set the trace name to include ranking
+        showlegend=True  # Show legend for individual vectors
+    ))
+    # Add arrow at 90% of the vector length
+    arrow_end = [0.90 * coord for coord in end_point]
+    fig.add_trace(create_arrow(arrow_end, end_point, 'green'))
+
+# Add bottom 10 recipe points as vectors originating from the origin (0, 0, 0) in red
+for i, idx in enumerate(bottom_10_indices):
+    recipe_name = df.loc[idx, 'name']  # Get recipe name using the correct index
+    end_point = recipes_3d[idx]
+    fig.add_trace(go.Scatter3d(
+        x=[0, end_point[0]],  # Start from origin
+        y=[0, end_point[1]],  # Start from origin
+        z=[0, end_point[2]],  # Start from origin
+        mode='lines',
+        line=dict(color='red', width=3),  # Use red for bottom 10 recipe vectors
+        name=f"Bottom {i+1}: {recipe_name}",  # Set the trace name to include ranking
+        showlegend=True  # Show legend for individual vectors
+    ))
+    # Add arrow at 90% of the vector length
+    arrow_end = [0.90 * coord for coord in end_point]
+    fig.add_trace(create_arrow(arrow_end, end_point, 'red'))
+
+# Plot user vector as an arrow in blue
+user_end_point = user_vector_3d
+fig.add_trace(go.Scatter3d(
+    x=[0, user_end_point[0]],
+    y=[0, user_end_point[1]],
+    z=[0, user_end_point[2]],
+    mode='lines',
+    line=dict(color='blue', width=6),
+    name='User Input Vector' +str(user_input_ingredients) # Keep the label for the user vector
+))
+# Add arrow at 90% of the vector length
+user_arrow_end = [0.90 * coord for coord in user_end_point]
+fig.add_trace(create_arrow(user_arrow_end, user_end_point, 'blue'))
+
+# Customize the layout
+fig.update_layout(
+    scene=dict(
+        xaxis_title='Dimension 1',
+        yaxis_title='Dimension 2',
+        zaxis_title='Dimension 3',
+        aspectmode='cube'
+    ),
+    title='3D Visualization of Recipe Similarities',
+    showlegend=True,  # Show legend for all vectors
+    legend=dict(itemsizing='constant', font=dict(size=10))  # Adjust legend appearance
 )
 
-# Create the figure and plot
-fig = go.Figure(data=[edge_trace, node_trace],
-                layout=go.Layout(
-                    title='Recipe Similarity Network',
-                    showlegend=False,
-                    hovermode='closest',
-                    margin=dict(b=20,l=5,r=5,t=40),
-                    annotations=[ dict(
-                        text="Python code: <a href='https://plotly.com/ipython-notebooks/network-graphs/'> https://plotly.com/ipython-notebooks/network-graphs/</a>",
-                        showarrow=False,
-                        xref="paper", yref="paper",
-                        x=0.005, y=-0.002 ) ],
-                    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                )
+# Show the plot
 fig.show()
