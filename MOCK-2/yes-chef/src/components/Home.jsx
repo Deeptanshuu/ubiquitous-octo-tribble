@@ -538,10 +538,10 @@ const Home = () => {
           </div>
         </div>
 
-        <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} h-screen transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
+        <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} h-full transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
           <div className="md:grid md:grid-cols-3 md:gap-7 flex flex-col gap-10">
             {searchResults.length === 0 && loading === false ? (
-              <h1 className="text-4xl w-full px-3 p-6 my-64 font-bold text-center mb-6 text-black bg-white border-2  border-black rounded-lg">
+              <h1 className="text-4xl w-full px-3 p-6 mb-64 md:mb-0 my-64 font-bold text-center text-black bg-white border-2  border-black rounded-lg">
                 👈 Use the filters to get started
               </h1>
             ) : (
