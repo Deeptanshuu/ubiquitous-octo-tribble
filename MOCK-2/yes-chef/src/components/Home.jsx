@@ -351,7 +351,7 @@ const Home = () => {
 
           <h2 className="text-3xl p-1 pl-10 font-bold mb-3 text-gray-800">What's for Dinner?</h2>
 
-          <div className="flex flex-row justify-between p-3">
+          <div className="flex flex-col md:flex-row justify-between md:p-3 pb-5 gap-3">
             <div className="flex items-center">
               <p className='text-base font-semibold mx-2 mb-2 px-3 py-1 rounded-full bg-green-300 text-green-700'>Veg Mode</p>
               <div className='p-1'>
@@ -538,7 +538,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
+        <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} h-screen transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
           <div className="md:grid md:grid-cols-3 md:gap-7 flex flex-col gap-10">
             {searchResults.length === 0 && loading === false ? (
               <h1 className="text-4xl w-full px-3 p-6 my-64 font-bold text-center mb-6 text-black bg-white border-2  border-black rounded-lg">
@@ -547,7 +547,7 @@ const Home = () => {
             ) : (
               <>
                 {loading === true ? (
-                  <div className="flex flex-row items-center justify-center w-[80em] h-screen">
+                  <div className="flex flex-row items-center justify-center w-[80em] h-screen pt-64">
                     <Loading/>
                   </div>
                 ) : (

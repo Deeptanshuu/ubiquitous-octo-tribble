@@ -1,16 +1,17 @@
+/* eslint-disable react/no-unknown-property */
 import './Loading.scss';
 
 const Loading = () => {
   return (
     <div className='w-full h-full'>
-      <svg class="pl" viewBox="0 0 128 128" width="128px" height="128px" role="img" aria-label="A pan being used to flip a blob resembling bacon as it splashes drops of grease in and out">
+      <svg className="pl" viewBox="0 0 128 128" width="128px" height="128px" role="img" aria-label="A pan being used to flip a blob resembling bacon as it splashes drops of grease in and out">
 	<clipPath id="pan-clip">
 		<rect rx="12" ry="14" x="4" y="52" width="68" height="28" />
 	</clipPath>
 	<defs>
 		<linearGradient id="pl-grad" x1="0" y1="0" x2="0" y2="1">
-			<stop offset="0%" stop-color="#000" />
-			<stop offset="100%" stop-color="#fff" />
+			<stop offset="0%" stopColor="#000" />
+			<stop offset="100%" stopColor="#fff" />
 		</linearGradient>
 		<mask id="pl-mask">
 			<rect x="0" y="0" width="88" height="80" fill="url(#pl-grad)" />

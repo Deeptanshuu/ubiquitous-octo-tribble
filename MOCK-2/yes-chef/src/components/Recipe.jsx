@@ -63,7 +63,7 @@ const Recipe = () => {
     return pairedSteps;
   };
 
-  if (loading) return <div className="text-center mt-96"><Loading /></div>;
+  if (loading) return <div className="text-center mt-96 pb-64"><Loading /></div>;
   if (error) return <div className="text-center mt-8 text-red-500">Error: {error}</div>;
   if (!recipe) return <div className="text-center mt-8">No recipe data available</div>;
 

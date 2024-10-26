@@ -213,7 +213,7 @@ def brute_force_recommend(ingredients, cuisine, course, cravings, veg):
 
     # Sort by total score and get top 12 results
     results = df_copy.sort_values('total_score', ascending=False).head(12)
-
+    time.sleep(0.08)
     # Prepare results for JSON serialization
     recommendations = []
     for _, row in results.iterrows():
@@ -247,7 +247,7 @@ def recommend_brute_force():
 
     recommendations = brute_force_recommend(ingredients, cuisine, course, cravings, veg)
     
-    time.sleep(0.08)
+    
     end_time = time.time()
     execution_time = (end_time - start_time) * 1000  # Convert to milliseconds
 
