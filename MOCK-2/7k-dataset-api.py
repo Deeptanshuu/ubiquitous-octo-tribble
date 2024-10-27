@@ -37,12 +37,17 @@ recipes_data["ingredients_text"] = recipes_data["ingredients_list"].apply(lambda
 # Fit vectorizer and transform recipe ingredients
 recipe_vectors = vectorizer.fit_transform(recipes_data["ingredients_text"])
 
+# Update the calculate_weighted_similarity function
 def calculate_weighted_similarity(similarity, recipe, user_cuisine, user_course):
     user_pref_similarity = 0
-    if user_cuisine and 'cuisine' in recipe and user_cuisine == recipe['cuisine']:
-        user_pref_similarity += cuisine_weight
-    if user_course and 'course' in recipe and user_course.strip().lower() == recipe['course'].strip().lower():
-        user_pref_similarity += course_weight
+    if user_cuisine and 'cuisine' in recipe:
+        # Use the same logic as brute force method
+        if any(c.lower() in recipe['cuisine'].lower() for c in user_cuisine):
+            user_pref_similarity += cuisine_weight
+    if user_course and 'course' in recipe:
+        # Use the same logic as brute force method
+        if user_course.lower() in recipe['course'].lower():
+            user_pref_similarity += course_weight
     weighted_similarity = similarity * (1 - (cuisine_weight + course_weight)) + user_pref_similarity
     return weighted_similarity
 
@@ -70,9 +75,20 @@ def calculate_servings(prep_time, cooking_time):
     except ValueError:
         return 'unknown'
 
+# Update the recommend_recipes function
 def recommend_recipes(user_ingredients, user_cuisine, user_course, user_veg):
     # Filter vegetarian recipes if requested
     filtered_recipes = recipes_data[recipes_data['diet'].str.strip().str.lower() == "vegetarian"] if user_veg else recipes_data
+
+    # # Filter by cuisine and course if provided
+    # if user_cuisine:
+    #     filtered_recipes = filtered_recipes[filtered_recipes['cuisine'].str.lower().apply(lambda x: any(c.lower() in x for c in user_cuisine))]
+    # if user_course:
+    #     filtered_recipes = filtered_recipes[filtered_recipes['course'].str.lower().str.contains(user_course.lower())]
+
+    # If no recipes match the filters, return an empty list
+    if filtered_recipes.empty:
+        return []
 
     # Transform user input
     user_ingredients_text = " ".join(user_ingredients)
@@ -87,8 +103,8 @@ def recommend_recipes(user_ingredients, user_cuisine, user_course, user_veg):
         for idx, sim in enumerate(similarities)
     ]
 
-    # Get top 12 recommendations
-    top_n_indices = np.argsort(weighted_similarities)[-12:][::-1]
+    # Get top 24 recommendations
+    top_n_indices = np.argsort(weighted_similarities)[-24:][::-1]
     top_recipes = filtered_recipes.iloc[top_n_indices]
 
     # Use multithreading for preparing recommendations
@@ -106,8 +122,8 @@ def recommend_recipes_api():
     data = request.json
 
     user_ingredients = data.get('ingredients', [])
-    user_cuisine = data.get('cuisine')
-    user_course = data.get('course')
+    user_cuisine = data.get('cuisine', [])
+    user_course = data.get('course', '')
     user_veg = data.get('veg', False)
 
     recommendations = recommend_recipes(user_ingredients, user_cuisine, user_course, user_veg)
@@ -211,8 +227,8 @@ def brute_force_recommend(ingredients, cuisine, course, cravings, veg):
         df_copy['craving_match']
     )
 
-    # Sort by total score and get top 12 results
-    results = df_copy.sort_values('total_score', ascending=False).head(12)
+    # Sort by total score and get top 24 results
+    results = df_copy.sort_values('total_score', ascending=False).head(24)
     time.sleep(0.08)
     # Prepare results for JSON serialization
     recommendations = []

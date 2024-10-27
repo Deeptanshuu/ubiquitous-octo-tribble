@@ -23,7 +23,7 @@ def calculate_similarity(user_vector, recipe_vector):
 # Cached t-SNE function
 @memory.cache
 def cached_tsne(vectors):
-    tsne = TSNE(n_components=3, random_state=42, verbose=1)
+    tsne = TSNE(n_components=3, random_state=42, verbose=1, n_iter=1000)
     return tsne.fit_transform(vectors)
 
 # Load the dataset
@@ -31,18 +31,14 @@ print("Loading dataset...")
 df = pd.read_csv("7k-dataset-with-vectors.csv")
 
 # Limit to the first 7500 recipes
-df = df.head(7500)
+df = df.head(7541)
 
 # Convert 'tfidf_vectors' column from string to numpy array using multithreading
 print("Processing TF-IDF vectors...")
 with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
     df['tfidf_vectors'] = list(tqdm(executor.map(process_tfidf_vector, df['tfidf_vectors']), total=len(df)))
 
-# Step 1: Reduce dimensions of all recipe vectors to 3D using t-SNE
-print("Reducing dimensions...")
-recipes_3d = cached_tsne(np.vstack(df['tfidf_vectors']))
-
-# Step 2: Generate user ingredient vector
+# Generate user ingredient vector
 # user_input_ingredients = ["chicken", "rice", "onion", "red chili", "egg noodles", "rice noodles", "ginger", "tomatoes"]
 user_input_ingredients = ["sugar", "chocolate", "vanilla extract", "baking soda", "eggs", "cocoa powder"]
 user_vector = np.zeros(df['tfidf_vectors'].iloc[0].shape)
@@ -73,8 +69,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count
 df['similarity'] = similarities
 
 # Get top 10 similar recipes
-top_10 = df.sort_values(by="similarity", ascending=False).head(15)
-bottom_10 = df.sort_values(by="similarity", ascending=True).head(50)
+top_10 = df.sort_values(by="similarity", ascending=False).head(30)
+bottom_10 = df.sort_values(by="similarity", ascending=True).head(30)
 
 # Prepare data for plotting
 top_10_indices = top_10.index
@@ -153,7 +149,7 @@ fig.update_layout(
         xaxis_title='Dimension 1',
         yaxis_title='Dimension 2',
         zaxis_title='Dimension 3',
-        aspectmode='cube'
+        aspectmode='auto'
     ),
     title='3D Visualization of Recipe Similarities',
     showlegend=True,  # Show legend for all vectors

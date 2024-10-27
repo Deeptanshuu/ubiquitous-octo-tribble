@@ -1,12 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 import  { useState, useEffect } from 'react';
-import { X, ChevronDown, ChevronUp, Search, Menu } from 'lucide-react';
+import { X, ChevronDown, ChevronUp, Search, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Clock, Utensils } from 'lucide-react';
 import VegToggle from './VegToggle';
 import Loading from './Loading';
 import AIToggle from './AIToggle';
 import bgImage from './bg.svg';
+import ingredientsData from '../ingredients.json';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,8 @@ const Home = () => {
   const [previousMethod, setPreviousMethod] = useState(null);
   const [lastUsedMethod, setLastUsedMethod] = useState('AI Magic 🪄');
   const [isMenuVisible, setIsMenuVisible] = useState(false); // Start with the menu hidden on small screens
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 6;
 
   const handleVegToggle = (newState) => {
     setIsVeg(newState);
@@ -59,40 +62,7 @@ const Home = () => {
   //hi this is a private repo now 
 
   useEffect(() => {
-    const ingredientsWithIds = [
-      'flour 🌾', 'sugar 🍬', 'eggs 🥚', 'chocolate 🍫', 'butter 🧈', 'vanilla extract 🌼',
-      'rice noodles 🍜', 'tofu 🍶', 'bean sprouts 🌱', 'peanuts 🥜', 'lime 🍋', 'fish sauce 🐟',
-      'tamarind paste 🌰', 'garlic 🧄', 'shallots 🧅', 'onions 🧅', 'tomatoes 🍅',
-      'coconut milk 🥥', 'curry paste 🍛', 'ginger 🍂', 'cilantro 🌿', 'cocoa powder 🍫', 'milk 🥛',
-      'vegetable oil 🌻', 'baking powder 🥄', 'salt 🧂',  'pasta 🍝', 'carrots 🥕',
-      'celery 🌿', 'red wine 🍷' ,'noodles 🍜', 'thyme 🌿', 'parsley 🌿', 'apples 🍎',
-      'cinnamon 🍂', 'nutmeg 🍂', 'lemon juice 🍋', 'mixed vegetables 🥗', 'vegetable broth 🥣',
-      'sushi rice 🍚', 'nori 🍙', 'fish (salmon/tuna) 🐟', 'cucumber 🥒', 'avocado 🥑',
-      'wasabi 🌶️', 'soy sauce 🍶', 'romaine lettuce 🥬', 'croutons 🥖', 'parmesan cheese 🧀', 'caesar dressing 🥗',
-      'anchovies 🐟', 'cream 🥛', 'basil 🌿', 'taco shells 🌮', 'lettuce 🥬', 'cheese 🧀', 'sour cream 🍶',
-      'taco seasoning 🌶️', 'sesame oil 🌻', 'rice 🍚', 'pie crust 🥧', 'lemons 🍋', 'cornstarch 🌽',
-      'arborio rice 🍚', 'mushrooms 🍄', 'white wine 🍷', 'pork ribs 🍖', 'bbq sauce 🍖', 'brown sugar 🍬',
-      'paprika 🌶️', 'garlic powder 🧄', 'onion powder 🧅', 'cucumbers 🥒', 'red onions 🧅', 'feta cheese 🧀',
-      'olives 🫒', 'olive oil 🌿', 'oregano 🌿', 'yogurt 🥛', 'tomato sauce 🍅', 'garam masala 🌶️', 'bananas 🍌',
-      'baking soda 🥄', 'egg noodles ', 'fresh mozzarella 🧀', 'balsamic vinegar 🍶',
-      'chicken 🍗', 'herbs 🌿', 'chili 🌶️', 'star anise 🌟', 'ladyfingers 🍰', 'espresso ☕', 'mascarpone cheese 🧀',
-      'chickpeas 🌱', 'cumin 🌿', 'coriander 🌿', 'corn tortillas 🌽', 'cheese 🧀', 'enchilada sauce 🌶️',
-      'red onion 🧅', 'soya sauce 🍶', 'broccoli 🥦', 'red bell pepper 🌶️', 'potatoes 🥔', 'rice paper wrappers 🍚',
-      'pork/shrimp/vegetables 🍖🍤🥗', 'vermicelli noodles 🍜', 'mint 🌿', 'eggplant 🍆', 'zucchini 🥒', 
-      'assorted vegetables 🥗', 'sausage 🌭', 'shrimp 🍤', 'cajun seasoning 🌶��', 
-      'kidney beans 🌱', 'black beans 🌱', 'chili powder 🌶️', 'beans 🌱',
-      'meat (chicken, steak, carnitas) 🍗🥩', 'salsa 🌶️', 'guacamole 🥑', 'bacon 🥓', 'hard-boiled egg 🥚', 'cashews 🥜',
-      'rice vinegar 🍚', 'chili paste 🌶️', 'nutritional yeast 🌾', 'black pepper 🌶️', 'vegetables (onion, bell pepper, spinach) 🧅🌶️🌿',
-      'lentils 🌱', 'herbs (thyme, bay leaf) 🌿', 'salmon fillet 🐟', 'lemon slices 🍋', 'fresh herbs (dill, parsley) 🌿',
-      'pepper 🌶️', 'quinoa 🍚', 'cherry tomatoes 🍅', 'chicken breast 🍗', 'breadcrumbs 🥖', 'mozzarella cheese 🧀',
-      'lasagna noodles 🍜', 'ricotta cheese 🧀', 'spinach 🌿', 'chicken chuck 🥩', 'Guinness beer 🍺', 'dashi stock 🍲',
-      'miso paste 🍲', 'wakame seaweed 🌿', 'chicken thighs 🍗', 'pita bread 🥖', 'turmeric 🌿',
-      'basmati rice 🍚', 'biryani spices 🌿', 'saffron 🌼', 'white fish 🐟', 'tartar sauce 🐟', 'lemon wedges 🍋',
-      'cauliflower 🥦', 'blue cheese dressing 🥗', 'chicken slices 🥩', 'pizza dough 🍕', 'tortillas 🌮', 'bell peppers 🌶️',
-     'green onions 🧅', 'tempura batter 🍤', 'dipping sauce 🥣', 'clams 🐚', 'heavy cream 🥛',
-      'phyllo dough 🥐', 'dill 🌿', 'mushroom duxelles 🍄', 'prosciutto 🥓', 'puff pastry 🥐',
-      'dijon mustard 🌶️', 'maple syrup 🍁', 'almond milk 🥛'
-    ].map((ing, index) => ({ id: `ing_${index}`, name: ing }));
+    const ingredientsWithIds = ingredientsData.ingredients.map((ing, index) => ({ id: `ing_${index}`, name: ing }));
     setIngredients(ingredientsWithIds);
     setDisplayedIngredients(ingredientsWithIds);
   }, []);
@@ -229,8 +199,8 @@ const Home = () => {
         setPreviousMethod(lastUsedMethod);
         setExecutionTime(result.execution_time);
         setLastUsedMethod(currentMethod);
-        // Remove this line: setCached(result.cached);
         setLoading(false);
+        setCurrentPage(1); // Reset to the first page when new results are fetched
       }, 100);
 
       console.log('Success:', result);
@@ -320,15 +290,60 @@ const Home = () => {
     </div>
   );
 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const getCurrentRecipes = () => {
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    return searchResults.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  };
+
+  const PaginationControls = ({ totalRecipes, paginate, currentPage }) => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(totalRecipes / recipesPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="flex justify-center items-center space-x-2 mt-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="p-2 rounded-full bg-gray-200 disabled:opacity-50"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`px-3 py-1 rounded-full ${
+              currentPage === number ? 'bg-gray-800 text-white' : 'bg-gray-200'
+            }`}
+          >
+            {number}
+          </button>
+        ))}
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === Math.ceil(searchResults.length / recipesPerPage)}
+          className="p-2 rounded-full bg-gray-200 disabled:opacity-50"
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+    );
+  };
+
   return (
     <>
-      <div className="home flex flex-col md:flex-row bg-white relative" style={{
+      <div className="home flex flex-col md:flex-row bg-white min-h-screen" style={{
         background: `url(${bgImage}) repeat`,
         backgroundSize: '500px 500px'
       }}>
         {/* Menu toggle button */}
         <button
-          className="fixed top-6 left-4 z-50 bg-gray-800 text-white p-2 rounded-full shadow-lg"
+          className="fixed top-[1.4rem] left-[1.2rem] z-50 bg-gray-800 text-white p-2 rounded-full shadow-lg"
           onClick={toggleMenu}
         >
           <Menu size={24} />
@@ -538,7 +553,8 @@ const Home = () => {
           </div>
         </div>
 
-        <div className={`result ${isMenuVisible ? 'w-2/3' : 'w-screen'} h-full transition-all duration-300 ease-in-out overflow-x-auto p-5 bg-white-200`}>
+
+        <div className={`result mb-10 ${isMenuVisible ? 'md:w-2/3' : 'w-full'} transition-all duration-300 ease-in-out p-5`}>
           <div className="md:grid md:grid-cols-3 md:gap-7 flex flex-col gap-10">
             {searchResults.length === 0 && loading === false ? (
               <h1 className="text-4xl w-full px-3 p-6 mb-64 md:mb-0 my-64 font-bold text-center text-black bg-white border-2  border-black rounded-lg">
@@ -613,7 +629,7 @@ const Home = () => {
                         </div>
                       </div>
                     )}
-                    {searchResults.map((recipe) => (
+                    {getCurrentRecipes().map((recipe) => (
                       <RecipeCard
                         key={recipe.id}
                         id={recipe.id}
@@ -626,7 +642,15 @@ const Home = () => {
                         veg={recipe.veg}
                       />
                     ))}
-
+                    {searchResults.length > 0 && (
+                      <div className="col-span-3 bg-white pb-3 p-0 md:ml-96 md:mr-72 m-0 border-2 border-slate-800 rounded-full">
+                        <PaginationControls
+                          totalRecipes={searchResults.length}
+                          paginate={paginate}
+                          currentPage={currentPage}
+                        />
+                      </div>
+                    )}
                   </>
                 )}
               </>
