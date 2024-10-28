@@ -23,7 +23,7 @@ def calculate_similarity(user_vector, recipe_vector):
 # Cached t-SNE function
 @memory.cache
 def cached_tsne(vectors):
-    tsne = TSNE(n_components=3, random_state=42, verbose=1, n_iter=1000)
+    tsne = TSNE(n_components=3, random_state=42, verbose=1, max_iter=1000)
     return tsne.fit_transform(vectors)
 
 # Load the dataset
@@ -39,8 +39,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count
     df['tfidf_vectors'] = list(tqdm(executor.map(process_tfidf_vector, df['tfidf_vectors']), total=len(df)))
 
 # Generate user ingredient vector
-# user_input_ingredients = ["chicken", "rice", "onion", "red chili", "egg noodles", "rice noodles", "ginger", "tomatoes"]
-user_input_ingredients = ["sugar", "chocolate", "vanilla extract", "baking soda", "eggs", "cocoa powder"]
+user_input_ingredients = ["chicken", "rice", "onion", "red chili", "egg noodles", "rice noodles", "ginger", "tomatoes"]
+#user_input_ingredients = ["sugar", "chocolate", "vanilla extract", "baking soda", "eggs", "cocoa powder"]
 user_vector = np.zeros(df['tfidf_vectors'].iloc[0].shape)
 for ingredient in user_input_ingredients:
     matching_recipes = df[df['ingredients_text'].str.contains(ingredient, case=False, na=False)]
@@ -136,7 +136,7 @@ fig.add_trace(go.Scatter3d(
     y=[0, user_end_point[1]],
     z=[0, user_end_point[2]],
     mode='lines',
-    line=dict(color='blue', width=6),
+    line=dict(color='orange', width=6),
     name='User Input Vector' +str(user_input_ingredients) # Keep the label for the user vector
 ))
 # Add arrow at 90% of the vector length
