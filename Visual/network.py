@@ -69,8 +69,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=multiprocessing.cpu_count
 df['similarity'] = similarities
 
 # Get top 10 similar recipes
-top_10 = df.sort_values(by="similarity", ascending=False).head(30)
-bottom_10 = df.sort_values(by="similarity", ascending=True).head(30)
+top_10 = df.sort_values(by="similarity", ascending=False).head(10)
+bottom_10 = df.sort_values(by="similarity", ascending=True).head(10)
 
 # Prepare data for plotting
 top_10_indices = top_10.index

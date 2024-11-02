@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 import  { useState, useEffect, useRef } from 'react';
-import { X, ChevronDown, ChevronUp, Search, Menu, ChevronLeft, ChevronRight, Divide } from 'lucide-react';
+import { X, ChevronDown, ChevronUp, Search, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Clock, Utensils } from 'lucide-react';
 import VegToggle from './VegToggle';
 import Loading from './Loading';
