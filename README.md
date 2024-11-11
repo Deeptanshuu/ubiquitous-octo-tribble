@@ -1,2 +1,2 @@
 **MINI-PROJECT-2**
-yes
+ML based recipe recommendation website
